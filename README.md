@@ -6,7 +6,7 @@
 * I want to learn how to use C++
 
 ## How?
-* C++, Qt, OpenGL: I think
+* C++, ImGUI, OpenGL: I think
 
 ## What we are doing/what we have done?
 [] Spawn a window

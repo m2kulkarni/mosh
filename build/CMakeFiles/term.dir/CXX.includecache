@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/KHR/khrplatform.h
+stdint.h
+-
+inttypes.h
+-
+stdint.h
+-
+
+../include/glad/glad.h
+KHR/khrplatform.h
+-
+
+/home/mohit/github/mosh/src/gui.cpp
+glad/glad.h
+-
+stdlib.h
+-
+iostream
+-
+map
+-
+GLFW/glfw3.h
+-
+ft2build.h
+-
+glm/vec2.hpp
+-
+
+/usr/include/freetype2/freetype/config/ftheader.h
+
+/usr/include/freetype2/ft2build.h
+freetype/config/ftheader.h
+-
+

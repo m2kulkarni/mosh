@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/mohit/github/mosh/build",
+  "command": "/usr/bin/cc  -I/home/mohit/github/mosh/include -I/usr/include/freetype2 -isystem /usr/lib/cmake/glm  -g   -o CMakeFiles/term.dir/src/glad.c.o   -c /home/mohit/github/mosh/src/glad.c",
+  "file": "/home/mohit/github/mosh/src/glad.c"
+},
+{
+  "directory": "/home/mohit/github/mosh/build",
+  "command": "/usr/bin/c++   -I/home/mohit/github/mosh/include -I/usr/include/freetype2 -isystem /usr/lib/cmake/glm  -g   -std=gnu++11 -o CMakeFiles/term.dir/src/gui.cpp.o -c /home/mohit/github/mosh/src/gui.cpp",
+  "file": "/home/mohit/github/mosh/src/gui.cpp"
+}
+]

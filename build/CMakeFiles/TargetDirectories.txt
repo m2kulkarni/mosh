@@ -1,0 +1,3 @@
+/home/mohit/github/mosh/build/CMakeFiles/rebuild_cache.dir
+/home/mohit/github/mosh/build/CMakeFiles/edit_cache.dir
+/home/mohit/github/mosh/build/CMakeFiles/term.dir
