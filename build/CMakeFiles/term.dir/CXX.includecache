@@ -21,6 +21,8 @@ KHR/khrplatform.h
 /home/mohit/github/mosh/src/gui.cpp
 glad/glad.h
 -
+glm/ext/vector_float3.hpp
+-
 stdlib.h
 -
 iostream
@@ -30,6 +32,10 @@ map
 GLFW/glfw3.h
 -
 ft2build.h
+-
+glm/glm.hpp
+-
+glm/gtc/matrix_transform.hpp
 -
 glm/vec2.hpp
 -
