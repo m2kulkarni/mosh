@@ -19,6 +19,8 @@ KHR/khrplatform.h
 -
 
 /home/mohit/github/mosh/src/gui.cpp
+cmath
+-
 glad/glad.h
 -
 glm/ext/vector_float3.hpp
