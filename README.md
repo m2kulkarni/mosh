@@ -1,16 +1,27 @@
 # GPU-accelerated Terminal Emulator
 
-## Why?
-* I want to understand how to create a good project.
-* I want to learn how to use GPUs.
-* I want to learn how to use C++
+## Build Instructions
 
-## How?
-* C++, ImGUI, OpenGL: I think
+```
+mkdir build
+cd build
+cmake ..
+make
+./term
+```
 
 ## What we are doing/what we have done?
-[] Spawn a window
-[] 
-
-
-
+- OpenGL tutorials
+   - [x] Spawn a window
+   - [x] Render triangles
+   - [x] Write shaders
+- Freetype2
+    - [x] Load Fonts, Glyphs, bitmaps
+    - [x] Show characters on window
+    - [x] Render text
+- ANSI X3.64
+    - [x] Escape codes
+- Basic commands
+    - [ ] clear
+    - [ ] ls
+    - [ ] pwd
