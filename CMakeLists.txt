@@ -11,7 +11,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 include_directories(include)
 include_directories(/usr/include/freetype2)
 
-
 # Find the required packages
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
