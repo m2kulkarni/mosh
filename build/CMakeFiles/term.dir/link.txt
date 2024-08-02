@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/term.dir/src/glad.c.o CMakeFiles/term.dir/src/gui.cpp.o  -o term  /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 -lm -ldl -lXrandr -lfreetype 
+/usr/bin/c++  -g   CMakeFiles/term.dir/src/glad.c.o CMakeFiles/term.dir/src/gui.cpp.o CMakeFiles/term.dir/src/shader.cpp.o CMakeFiles/term.dir/src/text.cpp.o  -o term  /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 -lm -ldl -lXrandr -lfreetype 

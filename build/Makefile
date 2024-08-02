@@ -177,6 +177,60 @@ src/gui.cpp.s:
 	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/gui.cpp.s
 .PHONY : src/gui.cpp.s
 
+src/shader.o: src/shader.cpp.o
+
+.PHONY : src/shader.o
+
+# target to build an object file
+src/shader.cpp.o:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/shader.cpp.o
+.PHONY : src/shader.cpp.o
+
+src/shader.i: src/shader.cpp.i
+
+.PHONY : src/shader.i
+
+# target to preprocess a source file
+src/shader.cpp.i:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/shader.cpp.i
+.PHONY : src/shader.cpp.i
+
+src/shader.s: src/shader.cpp.s
+
+.PHONY : src/shader.s
+
+# target to generate assembly for a file
+src/shader.cpp.s:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/shader.cpp.s
+.PHONY : src/shader.cpp.s
+
+src/text.o: src/text.cpp.o
+
+.PHONY : src/text.o
+
+# target to build an object file
+src/text.cpp.o:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/text.cpp.o
+.PHONY : src/text.cpp.o
+
+src/text.i: src/text.cpp.i
+
+.PHONY : src/text.i
+
+# target to preprocess a source file
+src/text.cpp.i:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/text.cpp.i
+.PHONY : src/text.cpp.i
+
+src/text.s: src/text.cpp.s
+
+.PHONY : src/text.s
+
+# target to generate assembly for a file
+src/text.cpp.s:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/text.cpp.s
+.PHONY : src/text.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +246,12 @@ help:
 	@echo "... src/gui.o"
 	@echo "... src/gui.i"
 	@echo "... src/gui.s"
+	@echo "... src/shader.o"
+	@echo "... src/shader.i"
+	@echo "... src/shader.s"
+	@echo "... src/text.o"
+	@echo "... src/text.i"
+	@echo "... src/text.s"
 .PHONY : help
 
 

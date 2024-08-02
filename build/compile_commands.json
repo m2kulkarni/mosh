@@ -8,5 +8,15 @@
   "directory": "/home/mohit/github/mosh/build",
   "command": "/usr/bin/c++   -I/home/mohit/github/mosh/include -I/usr/include/freetype2 -isystem /usr/lib/cmake/glm  -g   -std=gnu++11 -o CMakeFiles/term.dir/src/gui.cpp.o -c /home/mohit/github/mosh/src/gui.cpp",
   "file": "/home/mohit/github/mosh/src/gui.cpp"
+},
+{
+  "directory": "/home/mohit/github/mosh/build",
+  "command": "/usr/bin/c++   -I/home/mohit/github/mosh/include -I/usr/include/freetype2 -isystem /usr/lib/cmake/glm  -g   -std=gnu++11 -o CMakeFiles/term.dir/src/shader.cpp.o -c /home/mohit/github/mosh/src/shader.cpp",
+  "file": "/home/mohit/github/mosh/src/shader.cpp"
+},
+{
+  "directory": "/home/mohit/github/mosh/build",
+  "command": "/usr/bin/c++   -I/home/mohit/github/mosh/include -I/usr/include/freetype2 -isystem /usr/lib/cmake/glm  -g   -std=gnu++11 -o CMakeFiles/term.dir/src/text.cpp.o -c /home/mohit/github/mosh/src/text.cpp",
+  "file": "/home/mohit/github/mosh/src/text.cpp"
 }
 ]
