@@ -11,20 +11,29 @@
 #include <GLFW/glfw3.h>
 #include FT_FREETYPE_H
 
-#define WIDTH 600
-#define HEIGHT 800
-
 TextRenderer::TextRenderer(unsigned int width, unsigned int height)
 {
-    this->TextShader = Shader("/home/mohit/github/mosh/src/shaders/textShader.vs", "/home/mohit/github/mosh/src/shaders/textShader.fs");
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WIDTH), 0.0f, static_cast<float>(HEIGHT));
+    this->TextShader.LoadShader("/home/mohit/github/mosh/src/shaders/textShaderVertex.glsl", "/home/mohit/github/mosh/src/shaders/textShaderFragment.glsl");
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
+    this->TextShader.use();
+
     this->TextShader.setMatrix4("projection", projection);
     this->TextShader.setInt("text", 0);
-    this->TextShader.use();
+
+    glGenVertexArrays(1, &this->VAO);
+    glGenBuffers(1, &this->VBO);
+    glBindVertexArray(this->VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 void TextRenderer::LoadFont(std::string font, unsigned int fontSize)
 {
+    this->Characters.clear();
     FT_Library ft;
     if (FT_Init_FreeType(&ft))
         std::cout << "ERROR:FREETYPE: Could not Init Freetype Library" << std::endl;
@@ -82,9 +91,9 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
     this->TextShader.use();
     glUniform3f(glGetUniformLocation(this->TextShader.ID, "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(VAO);
+    glBindVertexArray(this->VAO);
 
-
+    // std::cout << "ehhrere" << std::endl;
     std::string::const_iterator c;
     for(c=text.begin(); c != text.end(); c++)
     {
@@ -92,6 +101,9 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
 
         float xpos = x + ch.Bearing.x * scale;
         float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
+
+        // float xpos = x + ch.Bearing.x * scale;
+        // float ypos = y + (this->Characters['H'].Bearing.y - ch.Bearing.y) * scale;
 
         float w = ch.Size.x * scale;
         float h = ch.Size.y * scale;
@@ -107,10 +119,9 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
         };
 
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
         x += (ch.Advance >> 6) * scale;

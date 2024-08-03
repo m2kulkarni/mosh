@@ -4,6 +4,8 @@
 
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
+#include <stdlib.h>
+#include <string>
 
 struct transformation {
     glm::mat4 rotate;
@@ -12,6 +14,7 @@ struct transformation {
 };
 
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
+std::string TextInputEvent();
 void process_input(GLFWwindow *window);
 
 #endif

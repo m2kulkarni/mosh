@@ -12,6 +12,7 @@ include_directories(include)
 include_directories(/usr/include/freetype2)
 
 # Find the required packages
+find_package(SDL2 REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(X11 REQUIRED)
@@ -24,4 +25,5 @@ file(GLOB SOURCES "src/*.cpp" "src/*.c")
 add_executable(term ${SOURCES})
 
 # Link the libraries
-target_link_libraries(term glfw m dl Xrandr freetype glm::glm)
+target_link_libraries(term glfw m dl Xrandr freetype glm::glm ${SDL2_LIBRARIES})
+target_include_directories(term PRIVATE ${SDL2_INCLUDE_DIRS})

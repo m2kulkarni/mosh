@@ -13,9 +13,9 @@ struct Character {
 class TextRenderer
 {
 public:
+    Shader TextShader;
     TextRenderer(unsigned int width, unsigned int height);
     std::map<char, Character> Characters;
-    Shader TextShader;
     void LoadFont(std::string font, unsigned int fontSize);
     void RenderText(std::string text, float x, float y, float scale, glm::vec3 color);
 private:
