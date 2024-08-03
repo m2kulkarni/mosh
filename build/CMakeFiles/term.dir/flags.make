@@ -7,11 +7,11 @@ C_FLAGS = -g
 
 C_DEFINES = 
 
-C_INCLUDES = -I/home/mohit/github/mosh/include -I/usr/include/freetype2 -isystem /usr/lib/cmake/glm 
+C_INCLUDES = -I/home/mohit/github/mosh/include -I/usr/include/freetype2 -I/usr/include/SDL2 -isystem /usr/lib/cmake/glm 
 
 CXX_FLAGS = -g   -std=gnu++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/mohit/github/mosh/include -I/usr/include/freetype2 -isystem /usr/lib/cmake/glm 
+CXX_INCLUDES = -I/home/mohit/github/mosh/include -I/usr/include/freetype2 -I/usr/include/SDL2 -isystem /usr/lib/cmake/glm 
 

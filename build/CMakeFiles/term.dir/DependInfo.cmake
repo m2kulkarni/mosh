@@ -13,6 +13,7 @@ set(CMAKE_C_COMPILER_ID "GNU")
 set(CMAKE_C_TARGET_INCLUDE_PATH
   "../include"
   "/usr/include/freetype2"
+  "/usr/include/SDL2"
   "/usr/lib/cmake/glm"
   )
 set(CMAKE_DEPENDS_CHECK_CXX
@@ -26,6 +27,7 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../include"
   "/usr/include/freetype2"
+  "/usr/include/SDL2"
   "/usr/lib/cmake/glm"
   )
 
