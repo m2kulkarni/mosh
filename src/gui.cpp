@@ -1,3 +1,4 @@
+#include "SDL.h"
 #include "SDL_events.h"
 #include "SDL_keyboard.h"
 #include "SDL_keycode.h"
@@ -17,6 +18,7 @@
 #include <iostream>
 #include <GLFW/glfw3.h>
 #include <ft2build.h>
+#include <string>
 #include FT_FREETYPE_H
 
 #define HEIGHT 1216
@@ -24,6 +26,7 @@
 
 unsigned int VAO, VBO;
 int currFontSize = 24;
+std::string inputText;
 
 TextRenderer *Text;
 
@@ -49,6 +52,11 @@ int main(int argc, char **argv)
         return -1;
     }
 
+    if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    {
+        std::cout << "ERROR::SDL::Failed Initialization" << std::endl;
+    }
+
     glViewport(0, 0, WIDTH, HEIGHT);
     glfwSetFramebufferSizeCallback(window, frame_buffer_size_callback);
 
@@ -59,17 +67,16 @@ int main(int argc, char **argv)
     Text = new TextRenderer(WIDTH, HEIGHT);
     Text->LoadFont("/home/mohit/.local/share/fonts/Noto Mono for Powerline.ttf", currFontSize);
 
-    std::cout << Text->Characters.at(10).Size.x << std::endl;
-
-    std::string in;
+    SDL_StartTextInput();
     while(!glfwWindowShouldClose(window))
     {
         process_input(window);
+        handle_sdl_input();
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
-        // in = TextInputEvent();
-        Text->RenderText("HELLLLLL", 5.0f, 10.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+        
+        std::cout << inputText<< std::endl;
+        Text->RenderText(inputText, 25.0f, 5.0f, 1.0f, glm::vec3(0.1f, 0.5f, 0.9f));
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -115,34 +122,19 @@ void process_input(GLFWwindow *window)
     }
 }
 
-std::string TextInputEvent()
+void handle_sdl_input()
 {
-    SDL_StartTextInput();
-    std::string in;
-    bool running = true;
-
-    while(running)
+    SDL_Event e;
+    while(SDL_PollEvent(&e) != 0)
     {
-        SDL_Event ev;
-        while(SDL_PollEvent(&ev))
+        if(e.type == SDL_TEXTINPUT)
+            inputText += e.text.text;
+        else if (e.type == SDL_KEYDOWN)
         {
-            if(ev.type == SDL_TEXTINPUT)
-            {
-                in += ev.text.text;
-                // std::cout << " > " << in << std::endl;
-            }
-            else if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_BACKSPACE && in.size())
-            {
-                in.pop_back();
-                // std::cout << " > " << in << std::endl;
-            }
-            else if (ev.type == SDL_QUIT)
-            {
-                running = false;
-            }
-
+            if(e.key.keysym.sym == SDLK_BACKSPACE && inputText.empty())
+                inputText.pop_back();
+            else if (e.key.keysym.sym == SDLK_RETURN)
+                inputText += "\n";
         }
     }
-    SDL_StopTextInput();
-    return in;
 }

@@ -1,7 +1,6 @@
 #ifndef GUI_HPP
 #define GUI_HPP
 
-
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
@@ -14,7 +13,8 @@ struct transformation {
 };
 
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
-std::string TextInputEvent();
+// std::string TextInputEvent();
+void handle_sdl_input();
 void process_input(GLFWwindow *window);
 
 #endif

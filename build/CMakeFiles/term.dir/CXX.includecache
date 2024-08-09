@@ -19,6 +19,8 @@ KHR/khrplatform.h
 -
 
 /home/mohit/github/mosh/src/gui.cpp
+SDL.h
+/home/mohit/github/mosh/src/SDL.h
 SDL_events.h
 /home/mohit/github/mosh/src/SDL_events.h
 SDL_keyboard.h
@@ -52,6 +54,8 @@ iostream
 GLFW/glfw3.h
 -
 ft2build.h
+-
+string
 -
 
 /home/mohit/github/mosh/src/gui.hpp
