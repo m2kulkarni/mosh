@@ -14,7 +14,7 @@ struct transformation {
 
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
 // std::string TextInputEvent();
-void handle_sdl_input();
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void process_input(GLFWwindow *window);
 
 #endif

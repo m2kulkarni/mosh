@@ -77,7 +77,7 @@ void TextRenderer::LoadFont(std::string font, unsigned int fontSize)
             glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
             static_cast<unsigned int>(face->glyph->advance.x)
         };
-        Characters.insert(std::pair<char, Character>(c, currchar));
+        this->Characters.insert(std::pair<char, Character>(c, currchar));
     }
     glBindTexture(GL_TEXTURE_2D, 0);
     FT_Done_Face(face);
@@ -97,7 +97,7 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
     std::string::const_iterator c;
     for(c=text.begin(); c != text.end(); c++)
     {
-        Character ch = Characters[*c];
+        Character ch = this->Characters[*c];
 
         float xpos = x + ch.Bearing.x * scale;
         float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
