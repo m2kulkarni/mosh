@@ -1,4 +1,3 @@
-#include "SDL_keycode.h"
 #include "shader.hpp"
 #include "gui.hpp"
 #include "text.hpp"
@@ -51,6 +50,10 @@ int main(int argc, char **argv)
     glfwSetFramebufferSizeCallback(window, frame_buffer_size_callback);
     glfwSetKeyCallback(window, key_callback);
 
+    GLFWcursor *cursor = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
+    glfwSetCursor(window, cursor);
+    glfwSetCursorPosCallback(window, cursor_position_callback);
+
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -102,6 +105,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
         }
     }
+}
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    std::cout << "Cursor position: " << xpos << ", " << ypos << std::endl;
 }
 
 void process_input(GLFWwindow *window)

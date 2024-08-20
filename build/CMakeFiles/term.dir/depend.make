@@ -11,12 +11,6 @@ CMakeFiles/term.dir/src/gui.cpp.o: ../src/gui.cpp
 CMakeFiles/term.dir/src/gui.cpp.o: ../src/gui.hpp
 CMakeFiles/term.dir/src/gui.cpp.o: ../src/shader.hpp
 CMakeFiles/term.dir/src/gui.cpp.o: ../src/text.hpp
-CMakeFiles/term.dir/src/gui.cpp.o: /usr/include/SDL2/SDL_config.h
-CMakeFiles/term.dir/src/gui.cpp.o: /usr/include/SDL2/SDL_keycode.h
-CMakeFiles/term.dir/src/gui.cpp.o: /usr/include/SDL2/SDL_scancode.h
-CMakeFiles/term.dir/src/gui.cpp.o: /usr/include/SDL2/SDL_stdinc.h
-CMakeFiles/term.dir/src/gui.cpp.o: /usr/include/SDL2/begin_code.h
-CMakeFiles/term.dir/src/gui.cpp.o: /usr/include/SDL2/close_code.h
 CMakeFiles/term.dir/src/gui.cpp.o: /usr/include/freetype2/freetype/config/ftheader.h
 CMakeFiles/term.dir/src/gui.cpp.o: /usr/include/freetype2/ft2build.h
 
