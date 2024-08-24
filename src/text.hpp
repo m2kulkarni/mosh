@@ -2,12 +2,13 @@
 #define TEXT_HPP
 #include "shader.hpp"
 #include <map>
+#include <vector>
 
 struct Character {
-    unsigned int TextureID; // ID handle of the glypth texture
-    glm::ivec2 Size; // Size of glyph
-    glm::ivec2 Bearing; // Offset from baseline to left/top glyph
-    long Advance; // Offset to advance to next glyph
+    unsigned int TextureID;
+    glm::ivec2 Size;
+    glm::ivec2 Bearing;
+    long Advance;
 };
 
 class TextRenderer
@@ -15,9 +16,14 @@ class TextRenderer
 public:
     Shader TextShader;
     TextRenderer(unsigned int width, unsigned int height);
+    void UpdateWindowSize(unsigned int width, unsigned int height);
     std::map<char, Character> Characters;
+    glm::vec2 currPos;
+    void RenderCursor(unsigned char c, glm::vec2 currPos, float scale, glm::vec3 color);
     void LoadFont(std::string font, unsigned int fontSize);
     void RenderText(std::string text, float x, float y, float scale, glm::vec3 color);
+    std::vector<std::pair<int, std::string>> ParseANSI(std::string& text);
+    glm::vec3 ANSItoColor(int colorCode);
 private:
     unsigned int VAO, VBO;
 };

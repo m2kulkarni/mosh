@@ -23,8 +23,10 @@ make
     - [x] Space, Backspace, Enter
     - [x] Cursor shape, cursor position
 - ANSI X3.64
-    - [ ] Escape codes
-- Basic commands
-    - [ ] clear
-    - [ ] ls
-    - [ ] pwd
+    - [x] Color Escape codes
+    - [ ] Other escape codes
+- Run Commands
+    - [x] Run commands
+    - [ ] process output
+    - [ ] sanitize input
+    - [ ] async commands

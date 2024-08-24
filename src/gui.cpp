@@ -15,12 +15,13 @@
 #include <string>
 #include FT_FREETYPE_H
 
-#define HEIGHT 1216
-#define WIDTH 1126
+int HEIGHT = 1216;
+int WIDTH = 1126;
 
 unsigned int VAO, VBO;
 int currFontSize = 24;
 std::string inputText;
+int lineHeight = 30;
 
 TextRenderer *Text;
 
@@ -60,14 +61,23 @@ int main(int argc, char **argv)
 
     Text = new TextRenderer(WIDTH, HEIGHT);
     Text->LoadFont("/home/mohit/.local/share/fonts/Noto Mono for Powerline.ttf", currFontSize);
+        
 
     while(!glfwWindowShouldClose(window))
     {
+        float LineX = 10.0f;
+        float LineY = HEIGHT - 30.0f;
         process_input(window);
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        // std::cout << inputText<< std::endl;
-        Text->RenderText(inputText, 25.0f, 5.0f, 1.0f, glm::vec3(0.1f, 0.5f, 0.9f));
+
+        Text->RenderText(inputText, LineX, LineY, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+        // Text->RenderText("Top Left", 10.0f, 10.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+        // Text->RenderText("Top Right", WIDTH - 100.0f, 10.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+        // Text->RenderText("Bottom Left", 10.0f, HEIGHT - 30.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+        // Text->RenderText("Bottom Right", WIDTH - 100.0f, HEIGHT - 30.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+        // Text->RenderText("Center", WIDTH / 2.0f, HEIGHT / 2.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+        Text->RenderCursor('|', Text->currPos, 1.0f, glm::vec3(1.0f, 0.0f, 0.0f)); 
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -80,7 +90,10 @@ int main(int argc, char **argv)
 
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height)
 {
+    WIDTH = width;
+    HEIGHT = height;
     std::cout << "Resizing window to " << width << "x" << height << std::endl;
+    Text->UpdateWindowSize(WIDTH, HEIGHT);
     glViewport(0, 0, width, height);
 }
 
@@ -92,11 +105,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         if(key == GLFW_KEY_SPACE)
             inputText += " ";
         else if (key == GLFW_KEY_ENTER)
-            inputText = "";
+        {
+            inputText += "\n";
+        }
         else if (key == GLFW_KEY_BACKSPACE)
         {
             if(!inputText.empty())
                 inputText.pop_back();
+        }
+        else if (key == GLFW_KEY_C && mods == GLFW_MOD_CONTROL)
+        {
+            if(!inputText.empty())
+                inputText += "^C";
         }
         else
         {
@@ -109,16 +129,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    std::cout << "Cursor position: " << xpos << ", " << ypos << std::endl;
+    // std::cout << "Cursor position: " << xpos << ", " << ypos << std::endl;
 }
 
 void process_input(GLFWwindow *window)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    {
-        std::cout << "Esc key pressed: Closing window" << std::endl;
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-    }
+    // if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    // {
+    //     std::cout << "Esc key pressed: Closing window" << std::endl;
+    //     glfwSetWindowShouldClose(window, GLFW_TRUE);
+    // }
 
     if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
     {
@@ -134,10 +154,10 @@ void process_input(GLFWwindow *window)
     {
         if (currFontSize >= 18)
         {
-
             Text->LoadFont("/home/mohit/.local/share/fonts/Noto Mono for Powerline.ttf", currFontSize);
             std::cout << "Changing font size" << std::endl;
             currFontSize -= 2;
         }
     }
+
 }

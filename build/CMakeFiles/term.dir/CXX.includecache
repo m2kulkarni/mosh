@@ -55,8 +55,6 @@ GLFW/glfw3.h
 -
 stdlib.h
 -
-string
--
 
 /home/mohit/github/mosh/src/shader.hpp
 glad/glad.h
@@ -70,6 +68,8 @@ string
 shader.hpp
 /home/mohit/github/mosh/src/shader.hpp
 map
+-
+vector
 -
 
 /usr/include/freetype2/freetype/config/ftheader.h
