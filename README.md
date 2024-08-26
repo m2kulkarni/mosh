@@ -22,6 +22,8 @@ make
     - [x] Render keyboard input
     - [x] Space, Backspace, Enter
     - [x] Cursor shape, cursor position
+    - [ ] Text Background color
+    - [ ] Fix scaling between lines
 - ANSI X3.64
     - [x] Color Escape codes
     - [ ] Other escape codes

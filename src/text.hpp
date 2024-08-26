@@ -16,14 +16,16 @@ class TextRenderer
 public:
     Shader TextShader;
     TextRenderer(unsigned int width, unsigned int height);
+    void SetTextColor(glm::vec3 color);
     void UpdateWindowSize(unsigned int width, unsigned int height);
     std::map<char, Character> Characters;
     glm::vec2 currPos;
     void RenderCursor(unsigned char c, glm::vec2 currPos, float scale, glm::vec3 color);
     void LoadFont(std::string font, unsigned int fontSize);
     void RenderText(std::string text, float x, float y, float scale, glm::vec3 color);
-    std::vector<std::pair<int, std::string>> ParseANSI(std::string& text);
-    glm::vec3 ANSItoColor(int colorCode);
+    void ParseANSICodes(int code);
+    std::vector<std::pair<std::vector<int>, std::string>> ParseText(std::string& text);
+    // glm::vec3 ANSItoColor(int colorCode);
 private:
     unsigned int VAO, VBO;
 };

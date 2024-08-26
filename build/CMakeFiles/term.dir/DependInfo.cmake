@@ -17,6 +17,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "/usr/lib/cmake/glm"
   )
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/mohit/github/mosh/src/commands.cpp" "/home/mohit/github/mosh/build/CMakeFiles/term.dir/src/commands.cpp.o"
   "/home/mohit/github/mosh/src/gui.cpp" "/home/mohit/github/mosh/build/CMakeFiles/term.dir/src/gui.cpp.o"
   "/home/mohit/github/mosh/src/shader.cpp" "/home/mohit/github/mosh/build/CMakeFiles/term.dir/src/shader.cpp.o"
   "/home/mohit/github/mosh/src/text.cpp" "/home/mohit/github/mosh/build/CMakeFiles/term.dir/src/text.cpp.o"

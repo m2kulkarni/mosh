@@ -123,6 +123,33 @@ term/fast:
 	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/build
 .PHONY : term/fast
 
+src/commands.o: src/commands.cpp.o
+
+.PHONY : src/commands.o
+
+# target to build an object file
+src/commands.cpp.o:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/commands.cpp.o
+.PHONY : src/commands.cpp.o
+
+src/commands.i: src/commands.cpp.i
+
+.PHONY : src/commands.i
+
+# target to preprocess a source file
+src/commands.cpp.i:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/commands.cpp.i
+.PHONY : src/commands.cpp.i
+
+src/commands.s: src/commands.cpp.s
+
+.PHONY : src/commands.s
+
+# target to generate assembly for a file
+src/commands.cpp.s:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/commands.cpp.s
+.PHONY : src/commands.cpp.s
+
 src/glad.o: src/glad.c.o
 
 .PHONY : src/glad.o
@@ -240,6 +267,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... term"
+	@echo "... src/commands.o"
+	@echo "... src/commands.i"
+	@echo "... src/commands.s"
 	@echo "... src/glad.o"
 	@echo "... src/glad.i"
 	@echo "... src/glad.s"

@@ -1,5 +1,6 @@
 #include "shader.hpp"
 #include "text.hpp"
+#include "commands.hpp"
 
 #include <cstddef>
 #include <glm/detail/qualifier.hpp>
@@ -42,7 +43,6 @@ TextRenderer::TextRenderer(unsigned int width, unsigned int height)
 void TextRenderer::UpdateWindowSize(unsigned int width, unsigned int height)
 {
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
-    this->TextShader.use();
     this->TextShader.setMatrix4("projection", projection);
 }
 
@@ -101,15 +101,19 @@ void TextRenderer::LoadFont(std::string font, unsigned int fontSize)
     return;
 }
 
+void TextRenderer::SetTextColor(glm::vec3 color)
+{
+    glUniform3f(glGetUniformLocation(this->TextShader.ID, "textColor"), color.x, color.y, color.z);
+}
+
 void TextRenderer::RenderText(std::string text, float x, float y, float scale, glm::vec3 color)
 {
-    this->TextShader.use();
-    glUniform3f(glGetUniformLocation(this->TextShader.ID, "textColor"), color.x, color.y, color.z);
+    this->SetTextColor(color);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(this->VAO);
 
     this->currPos = glm::vec2(x, y);
-    auto segments = this->ParseANSI(text);
+    auto segments = this->ParseText(text);
 
     std::string::const_iterator c;
     for(auto s : segments)
@@ -117,8 +121,15 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
         // std::cout << s.first << s.second << std::endl;
         for(c = s.second.begin(); c != s.second.end(); c++)
         {
-            glm::vec3 color = TextRenderer::ANSItoColor(s.first);
-            glUniform3f(glGetUniformLocation(this->TextShader.ID, "textColor"), color.x, color.y, color.z);
+            // std::cout << *c << " " << int(*c) << std::endl;
+            for (int n : s.first)
+                this->ParseANSICodes(n);
+            
+            if(*c == '\n')
+            {
+                this->currPos.x = 10;
+                this->currPos.y -= 30;
+            }
 
             Character ch = this->Characters[*c];
             float xpos = this->currPos.x + ch.Bearing.x * scale;
@@ -187,43 +198,56 @@ void TextRenderer::RenderCursor(unsigned char c, glm::vec2 currPos, float scale,
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-std::vector<std::pair<int, std::string>> TextRenderer::ParseANSI(std::string& text)
+std::vector<std::pair<std::vector<int>, std::string>> TextRenderer::ParseText(std::string& text)
 {
-    std::vector<std::pair<int, std::string>> result;
-    std::regex ansi_escape("\033\\[(\\d+)m([^\033]*)");
+    text = execCommands("tldr fish");
 
-    auto begin = std::sregex_iterator(text.begin(), text.end(), ansi_escape);
+    std::string normalized_input = text;
+    normalized_input = std::regex_replace(normalized_input, std::regex("\\^\\["), "\033");
+    normalized_input = std::regex_replace(normalized_input, std::regex("\\x1B"), "\033");
+
+    std::vector<std::pair<std::vector<int>, std::string>> result;
+    std::regex ansi_escape("\033\\[(\\d+(?:;\\d+)*)m([^\033]*)");
+
+    auto begin = std::sregex_iterator(normalized_input.begin(), normalized_input.end(), ansi_escape);
     auto end = std::sregex_iterator();
 
     for(std::sregex_iterator i=begin; i != end; i++)
     {
         std::smatch match = *i;
-        if(match.size() > 2)
-        {
-            int code = std::stoi(match[1].str());
-            std::string t= match[2].str();
-            result.push_back({code, t});
+        std::string codesStr= match[1].str();
+        std::string t = match[2].str();
+        std::regex codesRegex("\\d+");
 
+        auto codesBegin = std::sregex_iterator(codesStr.begin(), codesStr.end(), codesRegex);
+        auto codesEnd = std::sregex_iterator();
+        std::vector<int> codes;
+
+        for(std::sregex_iterator j=codesBegin; j != codesEnd; j++)
+        {
+            std::smatch codesMatch = *j;
+            codes.push_back(std::stoi(codesMatch.str()));
         }
+        result.push_back(std::make_pair(codes, t));
     }
 
-    std::string remaining_text = std::regex_replace(text, ansi_escape, "");
+    std::string remaining_text = std::regex_replace(normalized_input, ansi_escape, "");
     if(remaining_text.size() > 0)
-        result.push_back({37, remaining_text});
+        result.push_back({std::vector<int>(37), remaining_text});
     return result;
 }
 
-glm::vec3 TextRenderer::ANSItoColor(int colorCode)
+void TextRenderer::ParseANSICodes(int code)
 {
-    switch (colorCode) {
-        case 30: return glm::vec3(0.0f, 0.0f, 0.0f);
-        case 31: return glm::vec3(1.0f, 0.0f, 0.0f);
-        case 32: return glm::vec3(0.0f, 1.0f, 0.0f);
-        case 33: return glm::vec3(1.0f, 1.0f, 0.0f);
-        case 34: return glm::vec3(0.0f, 0.0f, 1.0f);
-        case 35: return glm::vec3(1.0f, 0.0f, 1.0f);
-        case 36: return glm::vec3(0.0f, 1.0f, 1.0f);
-        case 37: return glm::vec3(1.0f, 1.0f, 1.0f);
-        default: return glm::vec3(1.0f, 1.0f, 1.0f);
+    switch (code) {
+        case 30: this->SetTextColor(glm::vec3(0.0f, 0.0f, 0.0f)); break;
+        case 31: this->SetTextColor(glm::vec3(1.0f, 0.0f, 0.0f)); break;
+        case 32: this->SetTextColor(glm::vec3(0.0f, 1.0f, 0.0f)); break;
+        case 33: this->SetTextColor(glm::vec3(1.0f, 1.0f, 0.0f)); break;
+        case 34: this->SetTextColor(glm::vec3(0.0f, 0.0f, 1.0f)); break;
+        case 35: this->SetTextColor(glm::vec3(1.0f, 0.0f, 1.0f)); break;
+        case 36: this->SetTextColor(glm::vec3(0.0f, 1.0f, 1.0f)); break;
+        case 37: this->SetTextColor(glm::vec3(1.0f, 1.0f, 1.0f)); break;
+        default: this->SetTextColor(glm::vec3(1.0f, 1.0f, 1.0f)); break;
     }
 }
