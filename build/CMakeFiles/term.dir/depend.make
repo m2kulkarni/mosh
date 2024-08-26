@@ -7,8 +7,13 @@ CMakeFiles/term.dir/src/glad.c.o: ../src/glad.c
 
 CMakeFiles/term.dir/src/commands.cpp.o: ../src/commands.cpp
 
+CMakeFiles/term.dir/src/configReader.cpp.o: ../src/configReader.cpp
+CMakeFiles/term.dir/src/configReader.cpp.o: ../src/configReader.hpp
+
 CMakeFiles/term.dir/src/gui.cpp.o: ../include/KHR/khrplatform.h
 CMakeFiles/term.dir/src/gui.cpp.o: ../include/glad/glad.h
+CMakeFiles/term.dir/src/gui.cpp.o: ../src/commands.hpp
+CMakeFiles/term.dir/src/gui.cpp.o: ../src/configReader.hpp
 CMakeFiles/term.dir/src/gui.cpp.o: ../src/gui.cpp
 CMakeFiles/term.dir/src/gui.cpp.o: ../src/gui.hpp
 CMakeFiles/term.dir/src/gui.cpp.o: ../src/shader.hpp
@@ -24,6 +29,7 @@ CMakeFiles/term.dir/src/shader.cpp.o: ../src/shader.hpp
 CMakeFiles/term.dir/src/text.cpp.o: ../include/KHR/khrplatform.h
 CMakeFiles/term.dir/src/text.cpp.o: ../include/glad/glad.h
 CMakeFiles/term.dir/src/text.cpp.o: ../src/commands.hpp
+CMakeFiles/term.dir/src/text.cpp.o: ../src/configReader.hpp
 CMakeFiles/term.dir/src/text.cpp.o: ../src/shader.hpp
 CMakeFiles/term.dir/src/text.cpp.o: ../src/text.cpp
 CMakeFiles/term.dir/src/text.cpp.o: ../src/text.hpp

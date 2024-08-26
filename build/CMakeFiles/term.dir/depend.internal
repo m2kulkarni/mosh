@@ -7,9 +7,14 @@ CMakeFiles/term.dir/src/glad.c.o
  /home/mohit/github/mosh/src/glad.c
 CMakeFiles/term.dir/src/commands.cpp.o
  /home/mohit/github/mosh/src/commands.cpp
+CMakeFiles/term.dir/src/configReader.cpp.o
+ /home/mohit/github/mosh/src/configReader.cpp
+ /home/mohit/github/mosh/src/configReader.hpp
 CMakeFiles/term.dir/src/gui.cpp.o
  ../include/KHR/khrplatform.h
  ../include/glad/glad.h
+ /home/mohit/github/mosh/src/commands.hpp
+ /home/mohit/github/mosh/src/configReader.hpp
  /home/mohit/github/mosh/src/gui.cpp
  /home/mohit/github/mosh/src/gui.hpp
  /home/mohit/github/mosh/src/shader.hpp
@@ -25,6 +30,7 @@ CMakeFiles/term.dir/src/text.cpp.o
  ../include/KHR/khrplatform.h
  ../include/glad/glad.h
  /home/mohit/github/mosh/src/commands.hpp
+ /home/mohit/github/mosh/src/configReader.hpp
  /home/mohit/github/mosh/src/shader.hpp
  /home/mohit/github/mosh/src/text.cpp
  /home/mohit/github/mosh/src/text.hpp

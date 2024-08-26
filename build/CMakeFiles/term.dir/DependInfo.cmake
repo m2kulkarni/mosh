@@ -9,6 +9,11 @@ set(CMAKE_DEPENDS_CHECK_C
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_C
+  "YAML_CPP_STATIC_DEFINE"
+  )
+
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
   "../include"
@@ -18,11 +23,17 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   )
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/mohit/github/mosh/src/commands.cpp" "/home/mohit/github/mosh/build/CMakeFiles/term.dir/src/commands.cpp.o"
+  "/home/mohit/github/mosh/src/configReader.cpp" "/home/mohit/github/mosh/build/CMakeFiles/term.dir/src/configReader.cpp.o"
   "/home/mohit/github/mosh/src/gui.cpp" "/home/mohit/github/mosh/build/CMakeFiles/term.dir/src/gui.cpp.o"
   "/home/mohit/github/mosh/src/shader.cpp" "/home/mohit/github/mosh/build/CMakeFiles/term.dir/src/shader.cpp.o"
   "/home/mohit/github/mosh/src/text.cpp" "/home/mohit/github/mosh/build/CMakeFiles/term.dir/src/text.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
+
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_CXX
+  "YAML_CPP_STATIC_DEFINE"
+  )
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH

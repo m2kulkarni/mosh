@@ -3,15 +3,15 @@
 
 # compile C with /usr/bin/cc
 # compile CXX with /usr/bin/c++
-C_FLAGS = -g  
+C_FLAGS =  
 
-C_DEFINES = 
+C_DEFINES = -DYAML_CPP_STATIC_DEFINE
 
 C_INCLUDES = -I/home/mohit/github/mosh/include -I/usr/include/freetype2 -I/usr/include/SDL2 -isystem /usr/lib/cmake/glm 
 
-CXX_FLAGS = -g   -std=gnu++11
+CXX_FLAGS =   -std=gnu++11
 
-CXX_DEFINES = 
+CXX_DEFINES = -DYAML_CPP_STATIC_DEFINE
 
 CXX_INCLUDES = -I/home/mohit/github/mosh/include -I/usr/include/freetype2 -I/usr/include/SDL2 -isystem /usr/lib/cmake/glm 
 

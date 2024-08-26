@@ -1,6 +1,7 @@
 #ifndef TEXT_HPP
 #define TEXT_HPP
 #include "shader.hpp"
+#include "configReader.hpp"
 #include <map>
 #include <vector>
 
@@ -16,17 +17,24 @@ class TextRenderer
 public:
     Shader TextShader;
     TextRenderer(unsigned int width, unsigned int height);
-    void SetTextColor(glm::vec3 color);
+
     void UpdateWindowSize(unsigned int width, unsigned int height);
-    std::map<char, Character> Characters;
+
     glm::vec2 currPos;
-    void RenderCursor(unsigned char c, glm::vec2 currPos, float scale, glm::vec3 color);
+
+    void SetColors(const std::map<std::string, glm::vec3>& colorMap);
+
+    void RenderText(std::string text, float x, float y, float scale, std::string cname);
+    void RenderCursor(unsigned char c, glm::vec2 currPos, float scale, std::string cname);
+
     void LoadFont(std::string font, unsigned int fontSize);
-    void RenderText(std::string text, float x, float y, float scale, glm::vec3 color);
     void ParseANSICodes(int code);
     std::vector<std::pair<std::vector<int>, std::string>> ParseText(std::string& text);
-    // glm::vec3 ANSItoColor(int colorCode);
 private:
     unsigned int VAO, VBO;
+    std::map<std::string, glm::vec3> colorMap;
+    std::map<char, Character> Characters;
+    void SetTextColor(std::string cname);
+    void SetBackgroundColor(std::string cname);
 };
 #endif

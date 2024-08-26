@@ -70,9 +70,22 @@ CMakeFiles/term.dir/src/commands.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/term.dir/src/commands.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mohit/github/mosh/src/commands.cpp -o CMakeFiles/term.dir/src/commands.cpp.s
 
+CMakeFiles/term.dir/src/configReader.cpp.o: CMakeFiles/term.dir/flags.make
+CMakeFiles/term.dir/src/configReader.cpp.o: ../src/configReader.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mohit/github/mosh/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/term.dir/src/configReader.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/term.dir/src/configReader.cpp.o -c /home/mohit/github/mosh/src/configReader.cpp
+
+CMakeFiles/term.dir/src/configReader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/term.dir/src/configReader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mohit/github/mosh/src/configReader.cpp > CMakeFiles/term.dir/src/configReader.cpp.i
+
+CMakeFiles/term.dir/src/configReader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/term.dir/src/configReader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mohit/github/mosh/src/configReader.cpp -o CMakeFiles/term.dir/src/configReader.cpp.s
+
 CMakeFiles/term.dir/src/glad.c.o: CMakeFiles/term.dir/flags.make
 CMakeFiles/term.dir/src/glad.c.o: ../src/glad.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mohit/github/mosh/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/term.dir/src/glad.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mohit/github/mosh/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/term.dir/src/glad.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/term.dir/src/glad.c.o   -c /home/mohit/github/mosh/src/glad.c
 
 CMakeFiles/term.dir/src/glad.c.i: cmake_force
@@ -85,7 +98,7 @@ CMakeFiles/term.dir/src/glad.c.s: cmake_force
 
 CMakeFiles/term.dir/src/gui.cpp.o: CMakeFiles/term.dir/flags.make
 CMakeFiles/term.dir/src/gui.cpp.o: ../src/gui.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mohit/github/mosh/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/term.dir/src/gui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mohit/github/mosh/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/term.dir/src/gui.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/term.dir/src/gui.cpp.o -c /home/mohit/github/mosh/src/gui.cpp
 
 CMakeFiles/term.dir/src/gui.cpp.i: cmake_force
@@ -98,7 +111,7 @@ CMakeFiles/term.dir/src/gui.cpp.s: cmake_force
 
 CMakeFiles/term.dir/src/shader.cpp.o: CMakeFiles/term.dir/flags.make
 CMakeFiles/term.dir/src/shader.cpp.o: ../src/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mohit/github/mosh/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/term.dir/src/shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mohit/github/mosh/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/term.dir/src/shader.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/term.dir/src/shader.cpp.o -c /home/mohit/github/mosh/src/shader.cpp
 
 CMakeFiles/term.dir/src/shader.cpp.i: cmake_force
@@ -111,7 +124,7 @@ CMakeFiles/term.dir/src/shader.cpp.s: cmake_force
 
 CMakeFiles/term.dir/src/text.cpp.o: CMakeFiles/term.dir/flags.make
 CMakeFiles/term.dir/src/text.cpp.o: ../src/text.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mohit/github/mosh/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/term.dir/src/text.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mohit/github/mosh/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/term.dir/src/text.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/term.dir/src/text.cpp.o -c /home/mohit/github/mosh/src/text.cpp
 
 CMakeFiles/term.dir/src/text.cpp.i: cmake_force
@@ -125,6 +138,7 @@ CMakeFiles/term.dir/src/text.cpp.s: cmake_force
 # Object files for target term
 term_OBJECTS = \
 "CMakeFiles/term.dir/src/commands.cpp.o" \
+"CMakeFiles/term.dir/src/configReader.cpp.o" \
 "CMakeFiles/term.dir/src/glad.c.o" \
 "CMakeFiles/term.dir/src/gui.cpp.o" \
 "CMakeFiles/term.dir/src/shader.cpp.o" \
@@ -134,14 +148,16 @@ term_OBJECTS = \
 term_EXTERNAL_OBJECTS =
 
 term: CMakeFiles/term.dir/src/commands.cpp.o
+term: CMakeFiles/term.dir/src/configReader.cpp.o
 term: CMakeFiles/term.dir/src/glad.c.o
 term: CMakeFiles/term.dir/src/gui.cpp.o
 term: CMakeFiles/term.dir/src/shader.cpp.o
 term: CMakeFiles/term.dir/src/text.cpp.o
 term: CMakeFiles/term.dir/build.make
 term: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
+term: /usr/local/lib/libyaml-cpp.a
 term: CMakeFiles/term.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mohit/github/mosh/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable term"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mohit/github/mosh/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable term"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/term.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

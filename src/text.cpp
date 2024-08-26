@@ -10,7 +10,6 @@
 #include <ft2build.h>
 #include <cstdio>
 #include <glm/glm.hpp>
-#include <iomanip>
 #include <stdlib.h>
 #include <iostream>
 #include <regex>
@@ -27,7 +26,6 @@ TextRenderer::TextRenderer(unsigned int width, unsigned int height)
     this->TextShader.use();
 
     this->TextShader.setMatrix4("projection", projection);
-    this->TextShader.setInt("text", 0);
 
     glGenVertexArrays(1, &this->VAO);
     glGenBuffers(1, &this->VBO);
@@ -101,14 +99,21 @@ void TextRenderer::LoadFont(std::string font, unsigned int fontSize)
     return;
 }
 
-void TextRenderer::SetTextColor(glm::vec3 color)
+void TextRenderer::SetTextColor(std::string cname)
 {
+    glm::vec3 color = this->colorMap.find(cname)->second;
     glUniform3f(glGetUniformLocation(this->TextShader.ID, "textColor"), color.x, color.y, color.z);
 }
 
-void TextRenderer::RenderText(std::string text, float x, float y, float scale, glm::vec3 color)
+void TextRenderer::SetBackgroundColor(std::string cname)
 {
-    this->SetTextColor(color);
+    glm::vec3 color = this->colorMap.find(cname)->second;
+    glUniform3f(glGetUniformLocation(this->TextShader.ID, "backgroundColor"), color.x, color.y, color.z);
+}
+
+void TextRenderer::RenderText(std::string text, float x, float y, float scale, std::string cname)
+{
+    this->SetTextColor(cname);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(this->VAO);
 
@@ -160,10 +165,10 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void TextRenderer::RenderCursor(unsigned char c, glm::vec2 currPos, float scale, glm::vec3 color)
+void TextRenderer::RenderCursor(unsigned char c, glm::vec2 currPos, float scale, std::string cname)
 {
     this->TextShader.use();
-    glUniform3f(glGetUniformLocation(this->TextShader.ID, "textColor"), color.x, color.y, color.z);
+    this->SetTextColor(cname);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(this->VAO);
 
@@ -200,7 +205,8 @@ void TextRenderer::RenderCursor(unsigned char c, glm::vec2 currPos, float scale,
 
 std::vector<std::pair<std::vector<int>, std::string>> TextRenderer::ParseText(std::string& text)
 {
-    text = execCommands("tldr fish");
+    text = execCommands("echo -e '\\033[32mRed text\\033[0m \\033[1;34mBold blue text\\033[0m'");
+    // text = "\\033[41mRed text\\033[0m \\033[1;34mBold blue text\\033[0m";
 
     std::string normalized_input = text;
     normalized_input = std::regex_replace(normalized_input, std::regex("\\^\\["), "\033");
@@ -237,17 +243,41 @@ std::vector<std::pair<std::vector<int>, std::string>> TextRenderer::ParseText(st
     return result;
 }
 
+void TextRenderer::SetColors(const std::map<std::string, glm::vec3>& colorMap)
+{
+    this->colorMap = colorMap;
+}
+
 void TextRenderer::ParseANSICodes(int code)
 {
     switch (code) {
-        case 30: this->SetTextColor(glm::vec3(0.0f, 0.0f, 0.0f)); break;
-        case 31: this->SetTextColor(glm::vec3(1.0f, 0.0f, 0.0f)); break;
-        case 32: this->SetTextColor(glm::vec3(0.0f, 1.0f, 0.0f)); break;
-        case 33: this->SetTextColor(glm::vec3(1.0f, 1.0f, 0.0f)); break;
-        case 34: this->SetTextColor(glm::vec3(0.0f, 0.0f, 1.0f)); break;
-        case 35: this->SetTextColor(glm::vec3(1.0f, 0.0f, 1.0f)); break;
-        case 36: this->SetTextColor(glm::vec3(0.0f, 1.0f, 1.0f)); break;
-        case 37: this->SetTextColor(glm::vec3(1.0f, 1.0f, 1.0f)); break;
-        default: this->SetTextColor(glm::vec3(1.0f, 1.0f, 1.0f)); break;
+        //--------- Foreground Color codes ------------
+        case 30: this->SetTextColor("black"); break; // black
+        case 31: this->SetTextColor("red"); break; // red
+        case 32: this->SetTextColor("green"); break; // green
+        case 33: this->SetTextColor("yellow"); break; // yellow
+        case 34: this->SetTextColor("blue"); break; // blue
+        case 35: this->SetTextColor("magenta"); break; // magenta
+        case 36: this->SetTextColor("cyan"); break; // cyan
+        case 37: this->SetTextColor("white"); break; // white
+        // case 39: this->SetTextColor(); // default color
+
+        //--------- Background Color codes ------------
+        case 40: this->SetBackgroundColor("black"); break; // black
+        case 41: this->SetBackgroundColor("red"); break; // red
+        case 42: this->SetBackgroundColor("green"); break; // green
+        case 43: this->SetBackgroundColor("yellow"); break; // yellow
+        case 44: this->SetBackgroundColor("blue"); break; // blue
+        case 45: this->SetBackgroundColor("magenta"); break; // magenta
+        case 46: this->SetBackgroundColor("cyan"); break; // cyan
+        case 47: this->SetBackgroundColor("white"); break; // white
+        // case 49: this->SetBackgroundColor(); // default color
+        //
+        //--------- Reset Codes ------------
+        // case 0: 
+        //     this->SetTextColor(); 
+        //     this->SetBackgroundColor();
+        //     break; // reset all attributes
+
     }
 }

@@ -1,6 +1,8 @@
 #include "shader.hpp"
 #include "gui.hpp"
 #include "text.hpp"
+#include "commands.hpp"
+#include "configReader.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -13,6 +15,7 @@
 #include <GLFW/glfw3.h>
 #include <ft2build.h>
 #include <string>
+
 #include FT_FREETYPE_H
 
 int HEIGHT = 1216;
@@ -24,10 +27,10 @@ std::string inputText;
 int lineHeight = 30;
 
 TextRenderer *Text;
+ConfigReader *Config;
 
 int main(int argc, char **argv)
 {
-
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 
@@ -60,8 +63,10 @@ int main(int argc, char **argv)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     Text = new TextRenderer(WIDTH, HEIGHT);
+    Config = new ConfigReader("/home/mohit/github/mosh/src/config.yml");
+
     Text->LoadFont("/home/mohit/.local/share/fonts/Noto Mono for Powerline.ttf", currFontSize);
-        
+    Text->SetColors(Config->colorMap);
 
     while(!glfwWindowShouldClose(window))
     {
@@ -71,13 +76,8 @@ int main(int argc, char **argv)
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        Text->RenderText(inputText, LineX, LineY, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-        // Text->RenderText("Top Left", 10.0f, 10.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-        // Text->RenderText("Top Right", WIDTH - 100.0f, 10.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-        // Text->RenderText("Bottom Left", 10.0f, HEIGHT - 30.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-        // Text->RenderText("Bottom Right", WIDTH - 100.0f, HEIGHT - 30.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-        // Text->RenderText("Center", WIDTH / 2.0f, HEIGHT / 2.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-        Text->RenderCursor('|', Text->currPos, 1.0f, glm::vec3(1.0f, 0.0f, 0.0f)); 
+        Text->RenderText(inputText, LineX, LineY, 1.0f, "blue");
+        Text->RenderCursor('|', Text->currPos, 1.0f, "red"); 
 
         glfwSwapBuffers(window);
         glfwPollEvents();

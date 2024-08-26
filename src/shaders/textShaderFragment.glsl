@@ -4,9 +4,13 @@ out vec4 color;
 
 uniform sampler2D text;
 uniform vec3 textColor;
+uniform vec3 backgroundColor;
 
 void main()
 {
-   vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, TexCoords).r);
-   color = vec4(textColor, 1.0) * sampled;
+   float distance = texture(text, TexCoords).r;
+   float smoothWidth = 0.1;
+   float alpha = smoothstep(0.5 - smoothWidth, 0.5 + smoothWidth, distance);
+
+   color = vec4(mix(backgroundColor, textColor, alpha), 1.0);
 }

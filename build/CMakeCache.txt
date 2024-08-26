@@ -22,7 +22,7 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=DEBUG
+CMAKE_BUILD_TYPE:STRING=
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -98,7 +98,7 @@ CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=
 CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Enable/Disable output of compile commands during generation.
-CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=1
+CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=OFF
 
 //Install path prefix, prepended onto install directories.
 CMAKE_INSTALL_PREFIX:PATH=/usr/local
@@ -225,16 +225,16 @@ CMAKE_STRIP:FILEPATH=/usr/bin/strip
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //Path to a file.
-FREETYPE_INCLUDE_DIR_freetype2:PATH=/usr/include/freetype2
+FREETYPE_INCLUDE_DIR_freetype2:PATH=/usr/local/include/freetype2
 
 //Path to a file.
-FREETYPE_INCLUDE_DIR_ft2build:PATH=/usr/include/freetype2
+FREETYPE_INCLUDE_DIR_ft2build:PATH=/usr/local/include/freetype2
 
 //Path to a library.
 FREETYPE_LIBRARY_DEBUG:FILEPATH=FREETYPE_LIBRARY_DEBUG-NOTFOUND
 
 //Path to a library.
-FREETYPE_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libfreetype.so
+FREETYPE_LIBRARY_RELEASE:FILEPATH=/usr/local/lib/libfreetype.a
 
 //Path to a file.
 Fontconfig_INCLUDE_DIR:PATH=/usr/include
@@ -467,11 +467,8 @@ glfw3_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/glfw3
 //The directory containing a CMake configuration file for glm.
 glm_DIR:PATH=/usr/lib/cmake/glm
 
-//Path to a library.
-pkgcfg_lib_PKG_FONTCONFIG_fontconfig:FILEPATH=/usr/lib/x86_64-linux-gnu/libfontconfig.so
-
-//Path to a library.
-pkgcfg_lib_PKG_FONTCONFIG_freetype:FILEPATH=/usr/lib/x86_64-linux-gnu/libfreetype.so
+//The directory containing a CMake configuration file for yaml-cpp.
+yaml-cpp_DIR:PATH=/usr/local/lib/cmake/yaml-cpp
 
 
 ########################
@@ -667,37 +664,27 @@ OPENGL_opengl_LIBRARY-ADVANCED:INTERNAL=1
 OPENGL_xmesa_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
-PKG_FONTCONFIG_CFLAGS:INTERNAL=-I/usr/include/uuid;-I/usr/include/freetype2;-I/usr/include/libpng16
+PKG_FONTCONFIG_CFLAGS:INTERNAL=
 PKG_FONTCONFIG_CFLAGS_I:INTERNAL=
 PKG_FONTCONFIG_CFLAGS_OTHER:INTERNAL=
-PKG_FONTCONFIG_FOUND:INTERNAL=1
-PKG_FONTCONFIG_INCLUDEDIR:INTERNAL=/usr/include
-PKG_FONTCONFIG_INCLUDE_DIRS:INTERNAL=/usr/include/uuid;/usr/include/freetype2;/usr/include/libpng16
-PKG_FONTCONFIG_LDFLAGS:INTERNAL=-lfontconfig;-lfreetype
-PKG_FONTCONFIG_LDFLAGS_OTHER:INTERNAL=
-PKG_FONTCONFIG_LIBDIR:INTERNAL=/usr/lib/x86_64-linux-gnu
-PKG_FONTCONFIG_LIBRARIES:INTERNAL=fontconfig;freetype
-PKG_FONTCONFIG_LIBRARY_DIRS:INTERNAL=
+PKG_FONTCONFIG_FOUND:INTERNAL=
+PKG_FONTCONFIG_INCLUDEDIR:INTERNAL=
+PKG_FONTCONFIG_LIBDIR:INTERNAL=
 PKG_FONTCONFIG_LIBS:INTERNAL=
 PKG_FONTCONFIG_LIBS_L:INTERNAL=
 PKG_FONTCONFIG_LIBS_OTHER:INTERNAL=
 PKG_FONTCONFIG_LIBS_PATHS:INTERNAL=
-PKG_FONTCONFIG_MODULE_NAME:INTERNAL=fontconfig
-PKG_FONTCONFIG_PREFIX:INTERNAL=/usr
-PKG_FONTCONFIG_STATIC_CFLAGS:INTERNAL=-I/usr/include/uuid;-I/usr/include/freetype2;-I/usr/include/libpng16
+PKG_FONTCONFIG_MODULE_NAME:INTERNAL=
+PKG_FONTCONFIG_PREFIX:INTERNAL=
+PKG_FONTCONFIG_STATIC_CFLAGS:INTERNAL=
 PKG_FONTCONFIG_STATIC_CFLAGS_I:INTERNAL=
 PKG_FONTCONFIG_STATIC_CFLAGS_OTHER:INTERNAL=
-PKG_FONTCONFIG_STATIC_INCLUDE_DIRS:INTERNAL=/usr/include/uuid;/usr/include/freetype2;/usr/include/libpng16
-PKG_FONTCONFIG_STATIC_LDFLAGS:INTERNAL=-lfontconfig;-luuid;-lexpat;-lfreetype;-lpng16;-lm;-lz;-lm;-lz
-PKG_FONTCONFIG_STATIC_LDFLAGS_OTHER:INTERNAL=
 PKG_FONTCONFIG_STATIC_LIBDIR:INTERNAL=
-PKG_FONTCONFIG_STATIC_LIBRARIES:INTERNAL=fontconfig;uuid;expat;freetype;png16;m;z;m;z
-PKG_FONTCONFIG_STATIC_LIBRARY_DIRS:INTERNAL=
 PKG_FONTCONFIG_STATIC_LIBS:INTERNAL=
 PKG_FONTCONFIG_STATIC_LIBS_L:INTERNAL=
 PKG_FONTCONFIG_STATIC_LIBS_OTHER:INTERNAL=
 PKG_FONTCONFIG_STATIC_LIBS_PATHS:INTERNAL=
-PKG_FONTCONFIG_VERSION:INTERNAL=2.13.1
+PKG_FONTCONFIG_VERSION:INTERNAL=
 PKG_FONTCONFIG_fontconfig_INCLUDEDIR:INTERNAL=
 PKG_FONTCONFIG_fontconfig_LIBDIR:INTERNAL=
 PKG_FONTCONFIG_fontconfig_PREFIX:INTERNAL=
@@ -824,13 +811,7 @@ X11_dpms_INCLUDE_PATH-ADVANCED:INTERNAL=1
 X11_xkbfile_INCLUDE_PATH-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: X11_xkbfile_LIB
 X11_xkbfile_LIB-ADVANCED:INTERNAL=1
-__pkg_config_arguments_PKG_FONTCONFIG:INTERNAL=QUIET;fontconfig
 __pkg_config_checked_PKG_FONTCONFIG:INTERNAL=1
 //ADVANCED property for variable: glm_DIR
 glm_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: pkgcfg_lib_PKG_FONTCONFIG_fontconfig
-pkgcfg_lib_PKG_FONTCONFIG_fontconfig-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: pkgcfg_lib_PKG_FONTCONFIG_freetype
-pkgcfg_lib_PKG_FONTCONFIG_freetype-ADVANCED:INTERNAL=1
-prefix_result:INTERNAL=/usr/lib/x86_64-linux-gnu
 

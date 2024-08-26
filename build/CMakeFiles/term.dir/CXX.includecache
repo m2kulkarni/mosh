@@ -24,6 +24,14 @@ iostream
 stdlib.h
 -
 
+/home/mohit/github/mosh/src/configReader.hpp
+string
+-
+map
+-
+glm/glm.hpp
+-
+
 /home/mohit/github/mosh/src/shader.hpp
 glad/glad.h
 -
@@ -55,8 +63,6 @@ cstdio
 -
 glm/glm.hpp
 -
-iomanip
--
 stdlib.h
 -
 iostream
@@ -75,6 +81,8 @@ vector
 /home/mohit/github/mosh/src/text.hpp
 shader.hpp
 /home/mohit/github/mosh/src/shader.hpp
+configReader.hpp
+/home/mohit/github/mosh/src/configReader.hpp
 map
 -
 vector

@@ -150,6 +150,33 @@ src/commands.cpp.s:
 	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/commands.cpp.s
 .PHONY : src/commands.cpp.s
 
+src/configReader.o: src/configReader.cpp.o
+
+.PHONY : src/configReader.o
+
+# target to build an object file
+src/configReader.cpp.o:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/configReader.cpp.o
+.PHONY : src/configReader.cpp.o
+
+src/configReader.i: src/configReader.cpp.i
+
+.PHONY : src/configReader.i
+
+# target to preprocess a source file
+src/configReader.cpp.i:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/configReader.cpp.i
+.PHONY : src/configReader.cpp.i
+
+src/configReader.s: src/configReader.cpp.s
+
+.PHONY : src/configReader.s
+
+# target to generate assembly for a file
+src/configReader.cpp.s:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/configReader.cpp.s
+.PHONY : src/configReader.cpp.s
+
 src/glad.o: src/glad.c.o
 
 .PHONY : src/glad.o
@@ -270,6 +297,9 @@ help:
 	@echo "... src/commands.o"
 	@echo "... src/commands.i"
 	@echo "... src/commands.s"
+	@echo "... src/configReader.o"
+	@echo "... src/configReader.i"
+	@echo "... src/configReader.s"
 	@echo "... src/glad.o"
 	@echo "... src/glad.i"
 	@echo "... src/glad.s"
