@@ -9,7 +9,7 @@ uniform vec3 backgroundColor;
 void main()
 {
    float distance = texture(text, TexCoords).r;
-   float smoothWidth = 0.1;
+   float smoothWidth = 0.5;
    float alpha = smoothstep(0.5 - smoothWidth, 0.5 + smoothWidth, distance);
 
    color = vec4(mix(backgroundColor, textColor, alpha), 1.0);

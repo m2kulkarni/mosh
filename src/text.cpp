@@ -1,3 +1,4 @@
+#include "freetype/fttypes.h"
 #include "shader.hpp"
 #include "text.hpp"
 #include "commands.hpp"
@@ -52,16 +53,20 @@ void TextRenderer::LoadFont(std::string font, unsigned int fontSize)
         std::cout << "ERROR:FREETYPE: Could not Init Freetype Library" << std::endl;
 
     FT_Face face;
-    if (FT_New_Face(ft, "/home/mohit/.local/share/fonts/SpaceMono-Regular.ttf", 0, &face))
+    if (FT_New_Face(ft, "/home/mohit/.local/share/fonts/MesloLGLNerdFont-Regular.ttf", 0, &face))
         std::cout << "ERROR:FREETYPE: Failed to load font" << std::endl;
 
     FT_Set_Pixel_Sizes(face, 0, fontSize);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-    for(unsigned char c = 0; c <= 127; c++)
+    FT_UInt glyph_index;
+    // FT_ULong character = FT_Get_First_Char(FT_Face face, FT_UInt *agindex);
+
+    for(unsigned char c = 0; c <= 200; c++)
     {
         if(FT_Load_Char(face, c, FT_LOAD_RENDER))
             std::cout << "ERROR::FREETYPE: Failed to Load Glyph" << std::endl;
+        // std::cout << int(c) << " " << c << std::endl;
 
         // generate texture
         unsigned int texture;
@@ -95,7 +100,7 @@ void TextRenderer::LoadFont(std::string font, unsigned int fontSize)
     glBindTexture(GL_TEXTURE_2D, 0);
     FT_Done_Face(face);
     FT_Done_FreeType(ft);
-
+    
     return;
 }
 
@@ -117,6 +122,10 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, s
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(this->VAO);
 
+    float max_Hpos = this->Characters['H'].Bearing.y;
+    float max_Hneg = this->Characters['j'].Size.y - this->Characters['j'].Bearing.y;
+    // std::cout << max_Hneg << " "<< max_Hpos << std::endl;
+
     this->currPos = glm::vec2(x, y);
     auto segments = this->ParseText(text);
 
@@ -133,7 +142,7 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, s
             if(*c == '\n')
             {
                 this->currPos.x = 10;
-                this->currPos.y -= 30;
+                this->currPos.y -= 30*scale;
             }
 
             Character ch = this->Characters[*c];
@@ -143,13 +152,13 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, s
             float h = ch.Size.y * scale;
 
             float vertices[6][4] = {
-                {xpos,      ypos+h,     0.0f, 0.0f},
-                {xpos,      ypos,       0.0f, 1.0f},
-                {xpos+w,    ypos,       1.0f, 1.0f},
+                {xpos,      ypos+h,     0.0f, 0.0f, },
+                {xpos,      ypos,       0.0f, 1.0f, },
+                {xpos+w,    ypos,       1.0f, 1.0f, },
 
-                {xpos,      ypos+h,     0.0f, 0.0f},
-                {xpos+w,    ypos,       1.0f, 1.0f},
-                {xpos+w,    ypos+h,     1.0f, 0.0f}
+                {xpos,      ypos+h,     0.0f, 0.0f, },
+                {xpos+w,    ypos,       1.0f, 1.0f, },
+                {xpos+w,    ypos+h,     1.0f, 0.0f, }
             };
 
             glBindTexture(GL_TEXTURE_2D, ch.TextureID);
@@ -205,8 +214,11 @@ void TextRenderer::RenderCursor(unsigned char c, glm::vec2 currPos, float scale,
 
 std::vector<std::pair<std::vector<int>, std::string>> TextRenderer::ParseText(std::string& text)
 {
-    text = execCommands("echo -e '\\033[32mRed text\\033[0m \\033[1;34mBold blue text\\033[0m'");
+    // text = execCommands("echo -e '\\033[32mRed text\\033[0m Bold blue text\\033[0m'");
+    text = execCommands("echo -e '\033[1;31mBold Red\033[0m \033[4;32mUnderlined Green\033[0m \033[3;33mItalic Yellow\033[0m \033[1;4;35mBold Underlined Magenta\n\033[0m \033[7;36mInverted Cyan\033[0m \033[1;5;37mBold Blinking White\033[0m \033[38;5;208mOrange (256 color)\033[0m \033[48;5;27;97mWhite on Blue Background\033[0m'");
+    // text = "aaa";
     // text = "\\033[41mRed text\\033[0m \\033[1;34mBold blue text\\033[0m";
+    // text = "\033[2;37;41mHello";
 
     std::string normalized_input = text;
     normalized_input = std::regex_replace(normalized_input, std::regex("\\^\\["), "\033");
@@ -260,7 +272,7 @@ void TextRenderer::ParseANSICodes(int code)
         case 35: this->SetTextColor("magenta"); break; // magenta
         case 36: this->SetTextColor("cyan"); break; // cyan
         case 37: this->SetTextColor("white"); break; // white
-        // case 39: this->SetTextColor(); // default color
+        case 39: this->SetTextColor("foreground"); // default color
 
         //--------- Background Color codes ------------
         case 40: this->SetBackgroundColor("black"); break; // black
@@ -271,13 +283,16 @@ void TextRenderer::ParseANSICodes(int code)
         case 45: this->SetBackgroundColor("magenta"); break; // magenta
         case 46: this->SetBackgroundColor("cyan"); break; // cyan
         case 47: this->SetBackgroundColor("white"); break; // white
-        // case 49: this->SetBackgroundColor(); // default color
+        case 49: this->SetBackgroundColor("background"); // default color
         //
-        //--------- Reset Codes ------------
-        // case 0: 
-        //     this->SetTextColor(); 
-        //     this->SetBackgroundColor();
-        //     break; // reset all attributes
+        // --------- Reset Codes ------------
+        case 0: 
+            this->SetTextColor("foreground"); 
+            this->SetBackgroundColor("background");
+            break; // reset all attributes
+
+        // case 1:
+        //     this.SetFontStyle("bold")
 
     }
 }

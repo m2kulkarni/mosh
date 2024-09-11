@@ -7,9 +7,17 @@ ConfigReader::ConfigReader(std::string path)
 {
     this->Defaults();
     YAML::Node config = YAML::LoadFile(path);
-    YAML::Node config_colors = config["colors"]["normal"];
+    YAML::Node config_colors_normal = config["colors"]["normal"];
+    YAML::Node config_colors_primary = config["colors"]["primary"];
 
-    for(YAML::const_iterator j = config_colors.begin(); j != config_colors.end(); j++)
+    for(YAML::const_iterator j = config_colors_normal.begin(); j != config_colors_normal.end(); j++)
+    {
+        const std::string &color = j->first.as<std::string>();
+        glm::vec3 rgb = this->HexToRGB(j->second.as<int>());
+        this->colorMap[color] = rgb;
+    }
+
+    for(YAML::const_iterator j = config_colors_primary.begin(); j != config_colors_primary.end(); j++)
     {
         const std::string &color = j->first.as<std::string>();
         glm::vec3 rgb = this->HexToRGB(j->second.as<int>());
@@ -28,6 +36,8 @@ void ConfigReader::Defaults()
     default_hex["magenta"] = 0x85678f;
     default_hex["cyan"] = 0x5e8d87;
     default_hex["white"] = 0x707880;
+    default_hex["background"] = 0x1d1f21;
+    default_hex["foreground"] = 0xc5c8c6;
 
     for(const auto& n : default_hex)
     {

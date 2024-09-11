@@ -12,9 +12,9 @@ make
 
 ## What we are doing/what we have done?
 - OpenGL tutorials
-   - [x] Spawn a window
-   - [x] Render triangles
-   - [x] Write shaders
+    - [x] Spawn a window
+    - [x] Render triangles
+    - [x] Write shaders
 - Freetype2
     - [x] Load Fonts, Glyphs, bitmaps
     - [x] Show characters on window
@@ -24,9 +24,11 @@ make
     - [x] Cursor shape, cursor position
     - [ ] Text Background color
     - [ ] Fix scaling between lines
+    - [ ] Prefetch Glyphs: regular, bold, italic
 - ANSI X3.64
     - [x] Color Escape codes
-    - [ ] Other escape codes
+    - [x] Background escape codes
+    - [ ] Font-Style Codes
 - Run Commands
     - [x] Run commands
     - [ ] process output

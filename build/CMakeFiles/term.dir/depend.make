@@ -34,5 +34,6 @@ CMakeFiles/term.dir/src/text.cpp.o: ../src/shader.hpp
 CMakeFiles/term.dir/src/text.cpp.o: ../src/text.cpp
 CMakeFiles/term.dir/src/text.cpp.o: ../src/text.hpp
 CMakeFiles/term.dir/src/text.cpp.o: /usr/include/freetype2/freetype/config/ftheader.h
+CMakeFiles/term.dir/src/text.cpp.o: /usr/include/freetype2/freetype/fttypes.h
 CMakeFiles/term.dir/src/text.cpp.o: /usr/include/freetype2/ft2build.h
 

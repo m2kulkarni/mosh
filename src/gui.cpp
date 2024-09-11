@@ -22,7 +22,7 @@ int HEIGHT = 1216;
 int WIDTH = 1126;
 
 unsigned int VAO, VBO;
-int currFontSize = 24;
+int currFontSize = 28;
 std::string inputText;
 int lineHeight = 30;
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
         float LineX = 10.0f;
         float LineY = HEIGHT - 30.0f;
         process_input(window);
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClearColor(0.1f, 0.1f, 0.1f, 0.7f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         Text->RenderText(inputText, LineX, LineY, 1.0f, "blue");

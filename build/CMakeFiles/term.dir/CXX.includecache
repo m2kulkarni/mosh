@@ -41,6 +41,8 @@ string
 -
 
 /home/mohit/github/mosh/src/text.cpp
+freetype/fttypes.h
+/home/mohit/github/mosh/src/freetype/fttypes.h
 shader.hpp
 /home/mohit/github/mosh/src/shader.hpp
 text.hpp
@@ -89,6 +91,12 @@ vector
 -
 
 /usr/include/freetype2/freetype/config/ftheader.h
+
+/usr/include/freetype2/freetype/fttypes.h
+ft2build.h
+-
+stddef.h
+-
 
 /usr/include/freetype2/ft2build.h
 freetype/config/ftheader.h
