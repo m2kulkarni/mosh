@@ -32,9 +32,11 @@ public:
     std::vector<std::pair<std::vector<int>, std::string>> ParseText(std::string& text);
 private:
     unsigned int VAO, VBO;
+    unsigned int bgVAO, bgVBO;
     std::map<std::string, glm::vec3> colorMap;
     std::map<char, Character> Characters;
     void SetTextColor(std::string cname);
     void SetBackgroundColor(std::string cname);
+    void SetBackgroundBounds(float left, float right, float bottom, float top);
 };
 #endif
