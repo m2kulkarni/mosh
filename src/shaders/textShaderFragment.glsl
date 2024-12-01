@@ -16,13 +16,13 @@ void main()
    {
       color = vec4(backgroundColor, 1.0);
    }
-   // else
-   // {
-   //    color = vec4(backgroundColor, 1.0);
-   //    float distance = texture(text, TexCoords).r;
-   //    float smoothWidth = 0.5;
-   //    float alpha = smoothstep(0.5 - smoothWidth, 0.5 + smoothWidth, distance);
-   //
-   //    color = mix(color, vec4(textColor, 1.0), alpha);
-   // }
+   else
+   {
+      color = vec4(backgroundColor, 1.0);
+      float distance = texture(text, TexCoords).r;
+      float smoothWidth = 0.5;
+      float alpha = smoothstep(0.5 - smoothWidth, 0.5 + smoothWidth, distance);
+
+      color = mix(color, vec4(textColor, 1.0), alpha);
+   }
 }

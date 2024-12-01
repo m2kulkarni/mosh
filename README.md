@@ -23,18 +23,26 @@ make
     - [x] Render keyboard input
     - [x] Space, Backspace, Enter
     - [x] Cursor shape, cursor position
-    - [ ] Text Background color
-    - [ ] Fix scaling between lines
+    - [x] Text Background color
+    - [x] Fix scaling between lines
+    - [ ] Text buffer 
     - [ ] Prefetch Glyphs: regular, bold, italic
 - ANSI X3.64
     - [x] Color Escape codes
     - [x] Background escape codes
     - [ ] Font-Style Codes
 - Run Commands
-    - [x] Run commands
-    - [ ] process output
-    - [ ] sanitize input
+    - [x] Run commands 
+    - [x] process output (spacing etc)
+    - [ ] handle errors
+    - [ ] change directory
     - [ ] async commands
+- Aesthetics
+    - [x] Config File
+    - [ ] Filetype colors
+    - [ ] Better fontsize handling
+- AI 
+    - [ ] Ask commands to AI
 
 ## End goal?
 What should really be the end-goal of this project? \

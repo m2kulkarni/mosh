@@ -20,6 +20,13 @@ find_package(X11 REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(yaml-cpp CONFIG REQUIRED)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(XKBCOMMON REQUIRED xkbcommon)
+
+include_directories(${XKBCOMMON_INCLUDE_DIRS})
+link_directories(${XKBCOMMON_LIBRARY_DIRS})
+add_definitions(${XKBCOMMON_CFLAGS_OTHER})
+
 # Add the source files
 file(GLOB SOURCES "src/*.cpp" "src/*.c")
 
@@ -27,5 +34,5 @@ file(GLOB SOURCES "src/*.cpp" "src/*.c")
 add_executable(term ${SOURCES})
 
 # Link the libraries
-target_link_libraries(term glfw m dl Xrandr freetype glm::glm ${SDL2_LIBRARIES} yaml-cpp::yaml-cpp)
+target_link_libraries(term glfw m dl Xrandr freetype glm::glm ${SDL2_LIBRARIES} yaml-cpp::yaml-cpp ${XKBCOMMON_LIBRARIES})
 target_include_directories(term PRIVATE ${SDL2_INCLUDE_DIRS})

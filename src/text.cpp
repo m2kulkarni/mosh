@@ -132,87 +132,157 @@ void TextRenderer::SetBackgroundBounds(float left, float right, float bottom, fl
     glUniform1f(glGetUniformLocation(this->TextShader.ID, "top"), top);
 }
 
-void TextRenderer::RenderText(std::string text, float x, float y, float scale, std::string cname)
-{
+// void TextRenderer::RenderText(std::string text, float x, float y, float scale, std::string cname)
+// {
+//     this->SetTextColor(cname);
+//     glActiveTexture(GL_TEXTURE0);
+//     glBindVertexArray(this->VAO);
+//
+//     float Hpos = this->Characters['H'].Bearing.y*scale;
+//     float Hneg = (this->Characters['j'].Size.y - this->Characters['j'].Bearing.y)*scale;
+//
+//     // std::cout << max_Hneg << " "<< max_Hpos << std::endl;
+//
+//     this->currPos = glm::vec2(x, y);
+//     auto segments = this->ParseText(text);
+//
+//     std::string::const_iterator c;
+//     for(auto s : segments)
+//     {
+//         // std::cout << s.first << s.second << std::endl;
+//         for(c = s.second.begin(); c != s.second.end(); c++)
+//         {
+//             // std::cout << *c << " " << int(*c) << std::endl;
+//             for (int n : s.first)
+//                 this->ParseANSICodes(n);
+//             
+//             if(*c == '\n')
+//             {
+//                 this->currPos.x = 10;
+//                 this->currPos.y -= 30*scale;
+//                 continue;
+//             }
+//
+//             Character ch = this->Characters[*c];
+//             float xpos = this->currPos.x + ch.Bearing.x * scale;
+//             float ypos = this->currPos.y - (ch.Size.y - ch.Bearing.y) * scale;
+//             float w = ch.Size.x * scale;
+//             float h = ch.Size.y * scale;
+//
+//             float bg_left = this->currPos.x;
+//             float bg_right = this->currPos.x + (ch.Advance >> 6) * scale;
+//             float bg_bottom = this->currPos.y - Hneg;
+//             float bg_top = this->currPos.y + Hpos;
+//
+//             float BackgroundVertices[6][4] = {
+//                 {bg_left,  bg_top,    0.0f, 0.0f, },
+//                 {bg_left,  bg_bottom, 0.0f, 1.0f, },
+//                 {bg_right, bg_bottom, 1.0f, 1.0f, },
+//                                                     
+//                 {bg_left,  bg_top,    0.0f, 0.0f, },
+//                 {bg_right, bg_bottom, 1.0f, 1.0f, },
+//                 {bg_right, bg_top,    1.0f, 0.0f, }
+//             };
+//             
+//             float vertices[6][4] = {
+//                 {xpos,      ypos+h,     0.0f, 0.0f, },
+//                 {xpos,      ypos,       0.0f, 1.0f, },
+//                 {xpos+w,    ypos,       1.0f, 1.0f, },
+//
+//                 {xpos,      ypos+h,     0.0f, 0.0f, },
+//                 {xpos+w,    ypos,       1.0f, 1.0f, },
+//                 {xpos+w,    ypos+h,     1.0f, 0.0f, }
+//             };
+//             // std::cout << "Bottoms: " << ypos << " " << bg_bottom << std::endl;
+//             // std::cout << "Tops: " << ypos + h << " " << bg_top << std::endl;
+//             // std::cout << "Left: " << xpos << " " << bg_left << std::endl;
+//             // std::cout << "Right: " << xpos + w << " " << bg_right << std::endl;
+//             // std::cout << "Background Vertices: " << bg_left << " " << bg_right << " " << bg_bottom << " " << bg_top << std::endl;
+//             // std::cout << "Vertices: " << xpos << " " << ypos << " " << xpos+w << " " << ypos+h << std::endl;
+//             //
+//             // this->TextShader.setInt("isTextUniform", 0);
+//             // glBindBuffer(GL_ARRAY_BUFFER, this->bgVBO);
+//             // glBufferSubData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, sizeof(BackgroundVertices), BackgroundVertices);
+//             // glDrawArrays(GL_TRIANGLES, 6, 6);
+//
+//             this->TextShader.setInt("isTextUniform", 1);
+//             glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+//             glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+//             glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+//             glDrawArrays(GL_TRIANGLES, 0, 6);
+//
+//             this->currPos.x += (ch.Advance >> 6) * scale;
+//         }
+//     }
+//     glBindVertexArray(0);
+//     glBindTexture(GL_TEXTURE_2D, 0);
+// }
+
+void TextRenderer::RenderText(std::string text, float x, float y, float scale, const std::string cname) {
+    // Set the color for the text
     this->SetTextColor(cname);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(this->VAO);
 
-    float Hpos = this->Characters['H'].Bearing.y*scale;
-    float Hneg = (this->Characters['j'].Size.y - this->Characters['j'].Bearing.y)*scale;
-
-    // std::cout << max_Hneg << " "<< max_Hpos << std::endl;
-
+    // Initialize cursor position
     this->currPos = glm::vec2(x, y);
+
+    // Line height adjustments based on character metrics
+    float lineHeight = 30 * scale;
+    float maxCharHeight = this->Characters['H'].Bearing.y * scale;
+    float descenderOffset = (this->Characters['j'].Size.y - this->Characters['j'].Bearing.y) * scale;
+
+    // Parse the input text for ANSI codes and segments
     auto segments = this->ParseText(text);
 
-    std::string::const_iterator c;
-    for(auto s : segments)
-    {
-        // std::cout << s.first << s.second << std::endl;
-        for(c = s.second.begin(); c != s.second.end(); c++)
-        {
-            // std::cout << *c << " " << int(*c) << std::endl;
-            for (int n : s.first)
-                this->ParseANSICodes(n);
-            
-            if(*c == '\n')
-            {
-                this->currPos.x = 10;
-                this->currPos.y -= 30*scale;
+    for (const auto &segment : segments) {
+        // Apply ANSI codes to set styling
+        for (int ansiCode : segment.first) {
+            this->ParseANSICodes(ansiCode);
+        }
+
+        // Iterate through the segment characters
+        for (char c : segment.second) {
+            if (c == '\n') {
+                // Handle newline: Reset X and move down by line height
+                this->currPos.x = x;
+                this->currPos.y -= lineHeight;
+                continue;
             }
 
-            Character ch = this->Characters[*c];
+            // Retrieve character data
+            Character ch = this->Characters[c];
+
+            // Calculate character positions
             float xpos = this->currPos.x + ch.Bearing.x * scale;
             float ypos = this->currPos.y - (ch.Size.y - ch.Bearing.y) * scale;
             float w = ch.Size.x * scale;
             float h = ch.Size.y * scale;
 
-            float bg_left = this->currPos.x;
-            float bg_right = this->currPos.x + (ch.Advance >> 6) * scale;
-            float bg_bottom = this->currPos.y - Hneg;
-            float bg_top = this->currPos.y + Hpos;
-
-            float BackgroundVertices[6][4] = {
-                {bg_left,  bg_top,    0.0f, 0.0f, },
-                {bg_left,  bg_bottom, 0.0f, 1.0f, },
-                {bg_right, bg_bottom, 1.0f, 1.0f, },
-                                                    
-                {bg_left,  bg_top,    0.0f, 0.0f, },
-                {bg_right, bg_bottom, 1.0f, 1.0f, },
-                {bg_right, bg_top,    1.0f, 0.0f, }
-            };
-            
+            // Vertex data for the character's quad
             float vertices[6][4] = {
-                {xpos,      ypos+h,     0.0f, 0.0f, },
-                {xpos,      ypos,       0.0f, 1.0f, },
-                {xpos+w,    ypos,       1.0f, 1.0f, },
+                {xpos,      ypos + h, 0.0f, 0.0f},
+                {xpos,      ypos,     0.0f, 1.0f},
+                {xpos + w,  ypos,     1.0f, 1.0f},
 
-                {xpos,      ypos+h,     0.0f, 0.0f, },
-                {xpos+w,    ypos,       1.0f, 1.0f, },
-                {xpos+w,    ypos+h,     1.0f, 0.0f, }
+                {xpos,      ypos + h, 0.0f, 0.0f},
+                {xpos + w,  ypos,     1.0f, 1.0f},
+                {xpos + w,  ypos + h, 1.0f, 0.0f}
             };
-            // std::cout << "Bottoms: " << ypos << " " << bg_bottom << std::endl;
-            // std::cout << "Tops: " << ypos + h << " " << bg_top << std::endl;
-            // std::cout << "Left: " << xpos << " " << bg_left << std::endl;
-            // std::cout << "Right: " << xpos + w << " " << bg_right << std::endl;
-            // std::cout << "Background Vertices: " << bg_left << " " << bg_right << " " << bg_bottom << " " << bg_top << std::endl;
-            // std::cout << "Vertices: " << xpos << " " << ypos << " " << xpos+w << " " << ypos+h << std::endl;
 
-            this->TextShader.setInt("isTextUniform", 0);
-            glBindBuffer(GL_ARRAY_BUFFER, this->bgVBO);
-            glBufferSubData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, sizeof(BackgroundVertices), BackgroundVertices);
-            glDrawArrays(GL_TRIANGLES, 6, 6);
-
+            // Render the character
             this->TextShader.setInt("isTextUniform", 1);
             glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
             glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
             glBindTexture(GL_TEXTURE_2D, ch.TextureID);
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
+            // Advance cursor position
             this->currPos.x += (ch.Advance >> 6) * scale;
         }
     }
+
+    // Unbind buffers
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
@@ -258,10 +328,11 @@ void TextRenderer::RenderCursor(unsigned char c, glm::vec2 currPos, float scale,
 std::vector<std::pair<std::vector<int>, std::string>> TextRenderer::ParseText(std::string& text)
 {
     // text = execCommands("echo -e '\\033[32mRed text\\033[0m Bold blue text\\033[0m'");
-    text = execCommands("echo -e '\033[1;31mBold Red\033[0m \033[4;32mUnderlined Green\033[0m \033[3;33mItalic Yellow\033[0m \033[1;4;35mBold Underlined Magenta\n\033[0m \033[7;36mInverted Cyan\033[0m \033[1;5;37mBold Blinking White\033[0m \033[38;5;208mOrange (256 color)\033[0m \033[46mWhite on Blue Background\033[0m'");
+    // text = execCommands("echo -e '\033[1;31mBold Red\033[0m \033[4;32mUnderlined Green\033[0m \033[3;33mItalic Yellow\033[0m \033[1;4;35mBold Underlined Magenta\n\033[0m \033[7;36mInverted Cyan\033[0m \033[1;5;37mBold Blinking White\033[0m \033[38;5;208mOrange (256 color)\033[0m \033[46mWhite on Blue Background\033[0m'");
     // text = "aaa";
     // text = "\\033[41mRed text\\033[0m \\033[1;34mBold blue text\\033[0m";
     // text = "\033[2;37;41mHello";
+    // text = execCommands("ls");
 
     std::string normalized_input = text;
     normalized_input = std::regex_replace(normalized_input, std::regex("\\^\\["), "\033");
@@ -316,7 +387,7 @@ void TextRenderer::ParseANSICodes(int code)
         case 35: this->SetTextColor("magenta"); break; // magenta
         case 36: this->SetTextColor("cyan"); break; // cyan
         case 37: this->SetTextColor("white"); break; // white
-        case 39: this->SetTextColor("foreground"); // default color
+        case 39: this->SetTextColor("foreground"); break; // default color
 
         //--------- Background Color codes ------------
         case 40: this->SetBackgroundColor("black"); break; // black
@@ -327,7 +398,7 @@ void TextRenderer::ParseANSICodes(int code)
         case 45: this->SetBackgroundColor("magenta"); break; // magenta
         case 46: this->SetBackgroundColor("cyan"); break; // cyan
         case 47: this->SetBackgroundColor("white"); break; // white
-        case 49: this->SetBackgroundColor("background"); // default color
+        case 49: this->SetBackgroundColor("background"); break; // default color
         //
         // --------- Reset Codes ------------
         case 0: 

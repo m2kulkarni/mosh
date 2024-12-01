@@ -1,7 +1,6 @@
 #include "shader.hpp"
 #include "gui.hpp"
 #include "text.hpp"
-#include "commands.hpp"
 #include "configReader.hpp"
 
 #include <cmath>
@@ -11,23 +10,40 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <stdlib.h>
-#include <iostream>
 #include <GLFW/glfw3.h>
 #include <ft2build.h>
 #include <string>
+#include <vector>
+#include <array>
+#include <cstdio>
+#include <memory>
+#include <string>
+#include <stdexcept>
+#include <stdio.h>
+#include <iostream>
+#include <sys/wait.h>
+#include <algorithm>
 
 #include FT_FREETYPE_H
 
+// Window dimensions
 int HEIGHT = 1216;
 int WIDTH = 1126;
 
-unsigned int VAO, VBO;
-int currFontSize = 28;
-std::string inputText;
-int lineHeight = 30;
+// Text propoerties
+int fontSize = 28;
+size_t cursorIndex = 0;
+int lineSpacing = 30;
+TextRenderer *textRenderer;
+struct Line {
+    std::string text;
+    std::string cname;
+    std::string source;
+};
+std::vector<Line> textBuffer;
 
-TextRenderer *Text;
 ConfigReader *Config;
+unsigned int VAO, VBO;
 
 int main(int argc, char **argv)
 {
@@ -50,35 +66,44 @@ int main(int argc, char **argv)
         return -1;
     }
 
+    // Set viewports and callbacks
     glViewport(0, 0, WIDTH, HEIGHT);
-    glfwSetFramebufferSizeCallback(window, frame_buffer_size_callback);
-    glfwSetKeyCallback(window, key_callback);
+    glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {
+        WIDTH = width;
+        HEIGHT = height;
+        textRenderer->UpdateWindowSize(WIDTH, HEIGHT);
+        glViewport(0, 0, width, height);
+    });
+
+    glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+        if (action == GLFW_PRESS || action == GLFW_REPEAT) {
+            processKeyboardInput(key, mods);
+        }
+    });
 
     GLFWcursor *cursor = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
     glfwSetCursor(window, cursor);
-    glfwSetCursorPosCallback(window, cursor_position_callback);
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    Text = new TextRenderer(WIDTH, HEIGHT);
+    textRenderer = new TextRenderer(WIDTH, HEIGHT);
     Config = new ConfigReader("/home/mohit/github/mosh/src/config.yml");
 
-    Text->LoadFont("/home/mohit/.local/share/fonts/Noto Mono for Powerline.ttf", currFontSize);
-    Text->SetColors(Config->colorMap);
+    textRenderer->LoadFont("/home/mohit/.local/share/fonts/Noto Mono for Powerline.ttf", fontSize);
+    textRenderer->SetColors(Config->colorMap);
+
+    textBuffer.push_back({"$ ", "blue", "user_input"});
 
     while(!glfwWindowShouldClose(window))
     {
-        float LineX = 10.0f;
-        float LineY = HEIGHT - 30.0f;
-        process_input(window);
+
+        handleKeyInput(window);
         glClearColor(0.1f, 0.1f, 0.1f, 0.7f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        Text->RenderText(inputText, LineX, LineY, 1.0f, "blue");
-        Text->RenderCursor('|', Text->currPos, 1.0f, "red"); 
-
+        renderTextBuffer(10.0f, HEIGHT - lineSpacing, 1.0f);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -88,76 +113,96 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void frame_buffer_size_callback(GLFWwindow* window, int width, int height)
+void handleKeyInput(GLFWwindow *window)
 {
-    WIDTH = width;
-    HEIGHT = height;
-    std::cout << "Resizing window to " << width << "x" << height << std::endl;
-    Text->UpdateWindowSize(WIDTH, HEIGHT);
-    glViewport(0, 0, width, height);
-}
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    const char* key_name = glfwGetKeyName(key, scancode);
-    if(action != 0)
-    {
-        if(key == GLFW_KEY_SPACE)
-            inputText += " ";
-        else if (key == GLFW_KEY_ENTER)
-        {
-            inputText += "\n";
-        }
-        else if (key == GLFW_KEY_BACKSPACE)
-        {
-            if(!inputText.empty())
-                inputText.pop_back();
-        }
-        else if (key == GLFW_KEY_C && mods == GLFW_MOD_CONTROL)
-        {
-            if(!inputText.empty())
-                inputText += "^C";
-        }
-        else
-        {
-            if(key_name != NULL)
-                inputText += key_name;
-
-        }
-    }
-}
-
-void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
-{
-    // std::cout << "Cursor position: " << xpos << ", " << ypos << std::endl;
-}
-
-void process_input(GLFWwindow *window)
-{
-    // if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    // {
-    //     std::cout << "Esc key pressed: Closing window" << std::endl;
-    //     glfwSetWindowShouldClose(window, GLFW_TRUE);
-    // }
-
     if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
     {
-        if (currFontSize <=60)
+        if (fontSize<=60)
         {
-            Text->LoadFont("/home/mohit/.local/share/fonts/Noto Mono for Powerline.ttf", currFontSize);
+            textRenderer->LoadFont("/home/mohit/.local/share/fonts/Noto Mono for Powerline.ttf", fontSize);
             std::cout << "Changing font size" << std::endl;
-            currFontSize += 2;
+            fontSize += 2;
         }
     }
 
     if (glfwGetKey(window, GLFW_KEY_MINUS) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
     {
-        if (currFontSize >= 18)
+        if (fontSize>= 18)
         {
-            Text->LoadFont("/home/mohit/.local/share/fonts/Noto Mono for Powerline.ttf", currFontSize);
+            textRenderer->LoadFont("/home/mohit/.local/share/fonts/Noto Mono for Powerline.ttf", fontSize);
             std::cout << "Changing font size" << std::endl;
-            currFontSize -= 2;
+            fontSize -= 2;
         }
     }
-
 }
+
+void processKeyboardInput(int key, int mods)
+{
+    if (key == GLFW_KEY_ENTER) {
+        // Execute the command
+        std::string command = textBuffer.back().text.substr(2);
+        execCommands(command);
+
+        // Add a new line to the text buffer
+        textBuffer.push_back({"$ ", "foreground", "user_input"});
+    }
+    else if (key == GLFW_KEY_BACKSPACE) {
+        // remove last character
+        if (!textBuffer.back().text.empty() && textBuffer.back().text.size() > 2)
+        {
+            textBuffer.back().text.pop_back();
+        }
+    }
+    else if (key == GLFW_KEY_SPACE) {
+        // Add a space at the cursor position
+        textBuffer.back().text += " ";
+    } 
+    else 
+    {
+        const char *keyName = glfwGetKeyName(key, 0);
+        if (keyName && strlen(keyName) == 1)
+        {
+            textBuffer.back().text += keyName;
+        }
+    }
+}
+
+void execCommands(const std::string &command) {
+    std::string output = runShellCommand(command);
+    textBuffer.push_back({output, "green", "output"});
+}
+
+std::string runShellCommand(const std::string& command)
+{
+    std::array<char, 128> buffer;
+    std::string result;
+    std::string fish_command = "fish -c \"" + command + "\" | cat -v";
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(fish_command.c_str(), "r"), pclose);
+    if(!pipe)
+        throw std::runtime_error("popen() failed");
+
+    while(fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
+    {
+        result += buffer.data();
+    }
+    std::cout << result << std::endl;
+    return result;
+}
+
+void renderTextBuffer(float x, float y, float scale)
+{
+    for (const auto &line : textBuffer)
+    {
+        textRenderer->RenderText(line.text, x, y, scale, line.cname);
+
+        y -= (line.text.find('\n') != std::string::npos ? lineSpacing * scale * std::count(line.text.begin(), line.text.end(), '\n') : lineSpacing * scale);
+    }
+
+    renderCursor('|', textRenderer->currPos, scale);
+}
+
+void renderCursor(unsigned char c, glm::vec2 currPos, float scale)
+{
+    textRenderer->RenderCursor(c, currPos, scale, "green");
+}
+

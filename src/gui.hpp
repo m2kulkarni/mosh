@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
+#include <string>
 
 struct transformation {
     glm::mat4 rotate;
@@ -11,10 +12,11 @@ struct transformation {
     glm::mat4 translate;
 };
 
-void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
-void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-void process_input(GLFWwindow *window);
-
+void handleKeyInput(GLFWwindow *window);
+void processKeyboardInput(int key, int mods);
+void execCommands(const std::string &command);
+std::string runShellCommand(const std::string& command);
+void renderTextBuffer(float x, float y, float scale);
+void renderCursor(unsigned char c, glm::vec2 currPos, float scale);
 
 #endif
