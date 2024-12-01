@@ -12,7 +12,6 @@ CMakeFiles/term.dir/src/configReader.cpp.o: ../src/configReader.hpp
 
 CMakeFiles/term.dir/src/gui.cpp.o: ../include/KHR/khrplatform.h
 CMakeFiles/term.dir/src/gui.cpp.o: ../include/glad/glad.h
-CMakeFiles/term.dir/src/gui.cpp.o: ../src/commands.hpp
 CMakeFiles/term.dir/src/gui.cpp.o: ../src/configReader.hpp
 CMakeFiles/term.dir/src/gui.cpp.o: ../src/gui.cpp
 CMakeFiles/term.dir/src/gui.cpp.o: ../src/gui.hpp
@@ -20,6 +19,8 @@ CMakeFiles/term.dir/src/gui.cpp.o: ../src/shader.hpp
 CMakeFiles/term.dir/src/gui.cpp.o: ../src/text.hpp
 CMakeFiles/term.dir/src/gui.cpp.o: /usr/include/freetype2/freetype/config/ftheader.h
 CMakeFiles/term.dir/src/gui.cpp.o: /usr/include/freetype2/ft2build.h
+
+CMakeFiles/term.dir/src/keyHandler.cpp.o: ../src/keyHandler.cpp
 
 CMakeFiles/term.dir/src/shader.cpp.o: ../include/KHR/khrplatform.h
 CMakeFiles/term.dir/src/shader.cpp.o: ../include/glad/glad.h

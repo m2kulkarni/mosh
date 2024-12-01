@@ -13,7 +13,6 @@ CMakeFiles/term.dir/src/configReader.cpp.o
 CMakeFiles/term.dir/src/gui.cpp.o
  ../include/KHR/khrplatform.h
  ../include/glad/glad.h
- /home/mohit/github/mosh/src/commands.hpp
  /home/mohit/github/mosh/src/configReader.hpp
  /home/mohit/github/mosh/src/gui.cpp
  /home/mohit/github/mosh/src/gui.hpp
@@ -21,6 +20,8 @@ CMakeFiles/term.dir/src/gui.cpp.o
  /home/mohit/github/mosh/src/text.hpp
  /usr/include/freetype2/freetype/config/ftheader.h
  /usr/include/freetype2/ft2build.h
+CMakeFiles/term.dir/src/keyHandler.cpp.o
+ /home/mohit/github/mosh/src/keyHandler.cpp
 CMakeFiles/term.dir/src/shader.cpp.o
  ../include/KHR/khrplatform.h
  ../include/glad/glad.h

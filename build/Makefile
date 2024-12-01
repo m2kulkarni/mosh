@@ -231,6 +231,33 @@ src/gui.cpp.s:
 	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/gui.cpp.s
 .PHONY : src/gui.cpp.s
 
+src/keyHandler.o: src/keyHandler.cpp.o
+
+.PHONY : src/keyHandler.o
+
+# target to build an object file
+src/keyHandler.cpp.o:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/keyHandler.cpp.o
+.PHONY : src/keyHandler.cpp.o
+
+src/keyHandler.i: src/keyHandler.cpp.i
+
+.PHONY : src/keyHandler.i
+
+# target to preprocess a source file
+src/keyHandler.cpp.i:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/keyHandler.cpp.i
+.PHONY : src/keyHandler.cpp.i
+
+src/keyHandler.s: src/keyHandler.cpp.s
+
+.PHONY : src/keyHandler.s
+
+# target to generate assembly for a file
+src/keyHandler.cpp.s:
+	$(MAKE) -f CMakeFiles/term.dir/build.make CMakeFiles/term.dir/src/keyHandler.cpp.s
+.PHONY : src/keyHandler.cpp.s
+
 src/shader.o: src/shader.cpp.o
 
 .PHONY : src/shader.o
@@ -306,6 +333,9 @@ help:
 	@echo "... src/gui.o"
 	@echo "... src/gui.i"
 	@echo "... src/gui.s"
+	@echo "... src/keyHandler.o"
+	@echo "... src/keyHandler.i"
+	@echo "... src/keyHandler.s"
 	@echo "... src/shader.o"
 	@echo "... src/shader.i"
 	@echo "... src/shader.s"
