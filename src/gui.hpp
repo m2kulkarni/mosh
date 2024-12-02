@@ -18,5 +18,6 @@ void execCommands(const std::string &command);
 std::string runShellCommand(const std::string& command);
 void renderTextBuffer(float x, float y, float scale);
 void renderCursor(unsigned char c, glm::vec2 currPos, float scale);
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 
 #endif

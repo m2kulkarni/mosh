@@ -34,6 +34,7 @@ int WIDTH = 1126;
 int fontSize = 28;
 size_t cursorIndex = 0;
 int lineSpacing = 30;
+float scrollOffset = 0.0f;
 TextRenderer *textRenderer;
 struct Line {
     std::string text;
@@ -83,6 +84,8 @@ int main(int argc, char **argv)
 
     GLFWcursor *cursor = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
     glfwSetCursor(window, cursor);
+
+    glfwSetScrollCallback(window, scroll_callback);
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
@@ -189,13 +192,26 @@ std::string runShellCommand(const std::string& command)
     return result;
 }
 
-void renderTextBuffer(float x, float y, float scale)
-{
-    for (const auto &line : textBuffer)
+// FIXME: Auto Scrolling when text fills the screen
+void renderTextBuffer(float x, float startY, float scale) {
+    float maxVisibleHeight = HEIGHT;
+    float totalBufferHeight = textBuffer.size() * lineSpacing * scale;
+
+    if (totalBufferHeight > maxVisibleHeight) {
+        scrollOffset = totalBufferHeight - maxVisibleHeight;
+    }
+    float y = startY - scrollOffset;
+    std::cout << "Scroll offset: " << maxVisibleHeight << " " << totalBufferHeight << std::endl;
+    for (const auto &line : textBuffer) 
     {
+        if (y < -lineSpacing * scale || y > HEIGHT * scale) {
+            y -= lineSpacing * scale * (1 + std::count(line.text.begin(), line.text.end(), '\n'));
+            std::cout << "Skipping line " << y << std::endl;
+            continue;
+        }
         textRenderer->RenderText(line.text, x, y, scale, line.cname);
 
-        y -= (line.text.find('\n') != std::string::npos ? lineSpacing * scale * std::count(line.text.begin(), line.text.end(), '\n') : lineSpacing * scale);
+        y -= lineSpacing * scale * (1 + std::count(line.text.begin(), line.text.end(), '\n'));
     }
 
     renderCursor('|', textRenderer->currPos, scale);
@@ -206,3 +222,15 @@ void renderCursor(unsigned char c, glm::vec2 currPos, float scale)
     textRenderer->RenderCursor(c, currPos, scale, "green");
 }
 
+
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+    const float scrollStep = 30.0f;
+    // scrollOffset += yoffset * scrollStep;
+
+    // Clamp scrollOffset to valid range
+    if (scrollOffset < 0.0f) {
+        scrollOffset = 0.0f;
+    } else if (scrollOffset > (textBuffer.size() * lineSpacing - HEIGHT)) {
+        scrollOffset = textBuffer.size() * lineSpacing - HEIGHT;
+    }
+}
